@@ -52,9 +52,15 @@ class WpPleaseWait {
   }
 
   function add_styles_scripts() {
-    wp_enqueue_style( 'spinkit', 'https://cdnjs.cloudflare.com/ajax/libs/spinkit/1.2.5/spinkit.min.css' );
-    wp_enqueue_style( 'please-wait-css', 'https://cdnjs.cloudflare.com/ajax/libs/please-wait/0.0.5/please-wait.min.css' );
-    wp_enqueue_script( 'please-wait-js', 'https://cdnjs.cloudflare.com/ajax/libs/please-wait/0.0.5/please-wait.min.js', array(), '0.0.5', false );
+    wp_enqueue_style( 'spinkit',
+      ( $this->options['use_cdn'] ? 'https://cdnjs.cloudflare.com/ajax/libs/spinkit/1.2.5' : WpPleaseWait_SettingsPage::getInstance()->get_assets_url('assets') )
+      . '/spinkit.min.css' );
+    wp_enqueue_style( 'please-wait-css',
+      ( $this->options['use_cdn'] ? 'https://cdnjs.cloudflare.com/ajax/libs/please-wait/0.0.5' : WpPleaseWait_SettingsPage::getInstance()->get_assets_url('assets') )
+      . '/please-wait.min.css' );
+    wp_enqueue_script( 'please-wait-js',
+      ( $this->options['use_cdn'] ? 'https://cdnjs.cloudflare.com/ajax/libs/please-wait/0.0.5' : WpPleaseWait_SettingsPage::getInstance()->get_assets_url('assets') )
+     . '/please-wait.min.js', array(), '0.0.5', false );
   }
 
   function add_inline_styles() {

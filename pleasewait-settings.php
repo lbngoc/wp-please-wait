@@ -3,7 +3,7 @@ class WpPleaseWait_SettingsPage
 {
 
     const GITHUB_URL = 'https://github.com/lbngoc/wp-please-wait'; // null|string
-    const PLUGIN_URL = 'https://wordpress.org/support/plugin/wp-please-wait'; // null|string
+    const PLUGIN_URL = 'https://wordpress.org/support/plugin/wp-pleasewait'; // null|string
     const DEMO_URL = 'http://pathgather.github.io/please-wait';
 
     /**
@@ -13,6 +13,7 @@ class WpPleaseWait_SettingsPage
     private static $instance;
 
     private $default_options = array(
+      'use_cdn' => false,
       'hook_name' => 'wp_footer',
       'bg_color' => '#f46d3b',
       'text_color' => '#eeeeee',
@@ -124,6 +125,10 @@ class WpPleaseWait_SettingsPage
       return self::$instance;
     }
 
+    public function get_assets_url( $path ) {
+        return plugins_url( $path, __FILE__ );
+    }
+
     /**
      * Add options page
      */
@@ -193,7 +198,7 @@ class WpPleaseWait_SettingsPage
                           </ul>
                           <hr>
                           <p style="text-align: center">Plugin was created by <a href="https://ngoclb.com/project/wp-please-wait" style="text-decoration: none" target="_blank">Ngoc Luong</a></p>
-                          <p style="text-align: center"><a href='https://ko-fi.com/L3L4B8JX' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi2.png?v=0' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a></p>
+                          <p style="text-align: center"><a href='https://ko-fi.com/L3L4B8JX' target='_blank'><img height='36' style='border:0px;height:36px;' src='<?php echo $this->get_assets_url('assets/kofi2.png'); ?>' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a></p>
                       </div>
                     </div>
                   </div>
@@ -226,6 +231,14 @@ class WpPleaseWait_SettingsPage
             '', // Title
             array( $this, 'print_section_info' ), // Callback
             'wppleasewait-setting-admin' // Page
+        );
+
+        add_settings_field(
+            'use_cdn',
+            'Use CDN',
+            array( $this, 'use_cdn_callback' ),
+            'wppleasewait-setting-admin',
+            'setting_section_id'
         );
 
         add_settings_field(
@@ -291,6 +304,7 @@ class WpPleaseWait_SettingsPage
     {
         if (isset($_POST['reset'])) {
           return array_merge(array(
+            'use_cdn' => '',
             'hook_name' => '',
             'bg_color' => '',
             'text_color' => '',
@@ -300,8 +314,11 @@ class WpPleaseWait_SettingsPage
             'timeout' => ''
           ), $this->default_options);
         }
-        ////
+        // print_r($_POST); die;
         $new_input = array();
+
+        if( isset( $input['use_cdn'] ) )
+            $new_input['use_cdn'] = $input['use_cdn'] === 'yes';
 
         if( isset( $input['spinner_style'] ) )
             $new_input['spinner_style'] = sanitize_text_field( $input['spinner_style'] );
@@ -340,6 +357,18 @@ class WpPleaseWait_SettingsPage
     public function print_section_info()
     {
         // print 'Enter your settings below:';
+    }
+
+    /**
+     * Get the use_cdn option and print its input control
+     */
+    public function use_cdn_callback()
+    {
+        printf(
+            '<input type="checkbox" id="use_cdn" name="wppleasewait_settings[use_cdn]" value="yes" %s />',
+            checked($this->options['use_cdn'], true, false)
+        );
+        print '<span class="description">Check if you want to load assets from CDN</span>';
     }
 
     /**
