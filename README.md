@@ -6,7 +6,11 @@ PleaseWait is a small Javascript library that shows a beautiful loading page for
 
 [Open Demo](https://ngoclb.com/project/wp-please-wait)
 
+# Screenshots
+
 ![](screenshot-1.png)
+
+![](screenshot-2.png)
 
 # License
 

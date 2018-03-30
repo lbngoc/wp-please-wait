@@ -191,7 +191,7 @@ class WpPleaseWait_SettingsPage
                                   <a href="<?php echo self::PLUGIN_URL; ?>" style="text-decoration: none" target="_blank">Plugin Page in WP</a>
                               </li>
                               <li class="dashicons-before dashicons-star-filled" style="color: #82878c">
-                                  <a href="<?php echo self::PLUGIN_URL; ?>/reviews/?rate=5#new-post&quot;" style="text-decoration: none" target="_blank">
+                                  <a href="<?php echo self::PLUGIN_URL; ?>/reviews/?rate=5#new-post" style="text-decoration: none" target="_blank">
                                   Rate to this plugin</a>
                               </li>
                               <?php endif; ?>
@@ -389,7 +389,7 @@ class WpPleaseWait_SettingsPage
     public function bg_color_callback()
     {
         printf(
-            '<input type="hidden" id="bg_color" class="wp-color-picker" name="wppleasewait_settings[bg_color]" value="%s" />',
+            '<input type="text" id="bg_color" class="wp-color-picker" name="wppleasewait_settings[bg_color]" value="%s" />',
             isset( $this->options['bg_color'] ) ? esc_attr( $this->options['bg_color']) : $this->default_options['bg_color']
         );
     }
@@ -400,7 +400,7 @@ class WpPleaseWait_SettingsPage
     public function text_color_callback()
     {
         printf(
-            '<input type="hidden" id="text_color" class="wp-color-picker" name="wppleasewait_settings[text_color]" value="%s" />',
+            '<input type="text" id="text_color" class="wp-color-picker" name="wppleasewait_settings[text_color]" value="%s" />',
             isset( $this->options['text_color'] ) ? esc_attr( $this->options['text_color']) : $this->default_options['text_color']
         );
     }

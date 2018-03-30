@@ -1,7 +1,7 @@
 === WP PleaseWait ===
 Donate link: https://ko-fi.com/ngoclb
 Tags: pleasewait, loading, loader, spa
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 Requires PHP: 5.4.33
 Requires at least: 3.3
 Tested up to: 4.9.4
@@ -16,7 +16,7 @@ PleaseWait is a small Javascript library that shows a beautiful loading page for
 = Features: =
 * Custom appearance styles from WP Admin
 * Load assets from CDN
-* Support [Geneis framework](https://my.studiopress.com/themes/genesis/)
+* Support [Genesis framework](https://my.studiopress.com/themes/genesis/)
 
 Author: [Ngoc L](http://ngoclb.com/)
 Open Source: [https://github.com/lbngoc/wp-please-wait](https://github.com/lbngoc/wp-please-wait)
@@ -41,8 +41,13 @@ Just have fun.
 == Screenshots ==
 
 1. WP PleaseWait Settings
+2. WP PleaseWait Loading Screen
 
 == Changelog ==
+
+**1.0.1**
+- Allow user input color for "Background Color" and "Text Color"
+- Update screenshoot
 
 **1.0.0**
 - First release
