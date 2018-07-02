@@ -4,7 +4,7 @@
 Plugin Name:  WP PleaseWait
 Plugin URI:   https://ngoclb.com/project/wp-please-wait
 Description:  Add PleaseWait loading screen to currrent theme
-Version:      1.0.1
+Version:      1.0.2
 Author:       Ngoc LB
 Author URI:   https://ngoclb.com/
 License:      MIT License
@@ -42,6 +42,8 @@ class WpPleaseWait {
     if ( 'genesis' === get_template() ) {
       $hook_name = 'genesis_before';
       $after_hook  = 'genesis_after';
+    } else if (class_exists('Roots\\Sage\\Assets')) {
+      $hook_name = 'get_header';
     } else if ($this->options['hook_name']) {
       $hook_name = $this->options['hook_name'];
     }
@@ -98,7 +100,7 @@ var rootelem = document.querySelector('html'),
   template: `{$this->options['loading_template']}`,
   backgroundColor: '{$this->options['bg_color']}',
   loadingHtml: `{$this->options['spinner_styles'][$this->options['spinner_style']]}`,
-  onLoadedCallback: function() { setTimeout(function(){rootelem.className = rootelem.className.replace('pg-loading', '').trim();} , 200); }
+  onLoadedCallback: function() { setTimeout(function(){rootelem.className = rootelem.className.replace('pg-loading', 'pg-loaded').trim();} , 200); }
 });
 rootelem.className += ' pg-loading';
 function hide_loading_screen() {loading_screen.finish();}

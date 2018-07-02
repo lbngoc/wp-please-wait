@@ -1,7 +1,7 @@
 === WP PleaseWait ===
 Donate link: https://ko-fi.com/ngoclb
-Tags: pleasewait, loading, loader, spa
-Stable tag: 1.0.1
+Tags: pleasewait, loading, loader, spa, animation, loading screen, loading page, page effects, page loader, splash screen
+Stable tag: 1.0.2
 Requires PHP: 5.4.33
 Requires at least: 3.3
 Tested up to: 4.9.4
@@ -17,8 +17,9 @@ PleaseWait is a small Javascript library that shows a beautiful loading page for
 * Custom appearance styles from WP Admin
 * Load assets from CDN
 * Support [Genesis framework](https://my.studiopress.com/themes/genesis/)
+* Support [Roots Sage Starter Theme](https://roots.io/sage/)
 
-Author: [Ngoc L](http://ngoclb.com/)
+Author: [Ngoc L.](http://ngoclb.com/project/wp-please-wait)
 Open Source: [https://github.com/lbngoc/wp-please-wait](https://github.com/lbngoc/wp-please-wait)
 
 == Installation ==
