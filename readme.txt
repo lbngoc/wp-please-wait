@@ -1,10 +1,10 @@
 === WP PleaseWait ===
 Donate link: https://ko-fi.com/ngoclb
 Tags: pleasewait, loading, loader, spa, animation, loading screen, loading page, page effects, page loader, splash screen
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 Requires PHP: 5.4.33
 Requires at least: 3.3
-Tested up to: 4.9.4
+Tested up to: 4.9.8
 
 This plugin allow you to use [pleasewait](https://pathgather.github.io/please-wait) to show a beautiful loading page for your website while it loads.
 
@@ -18,6 +18,7 @@ PleaseWait is a small Javascript library that shows a beautiful loading page for
 * Load assets from CDN
 * Support [Genesis framework](https://my.studiopress.com/themes/genesis/)
 * Support [Roots Sage Starter Theme](https://roots.io/sage/)
+* Support [BeTheme](https://themes.muffingroup.com/be/splash/)
 
 Author: [Ngoc L.](http://ngoclb.com/project/wp-please-wait)
 Open Source: [https://github.com/lbngoc/wp-please-wait](https://github.com/lbngoc/wp-please-wait)
@@ -45,6 +46,16 @@ Just have fun.
 2. WP PleaseWait Loading Screen
 
 == Changelog ==
+
+**1.0.3**
+- Add new option: "Messgage Position"
+- Display random message on loading screen if user set multiple messages
+- Force use custom hook name defined by user instead auto detect
+- Support BeTheme
+
+**1.0.2**
+- Add .pg-loaded class to html tag after hide loading screen
+- Support Sage starter theme
 
 **1.0.1**
 - Allow user input color for "Background Color" and "Text Color"
