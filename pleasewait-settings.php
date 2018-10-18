@@ -531,15 +531,14 @@ class WpPleaseWait_SettingsPage
     public function get_hook_name()
     {
         $hook_name = 'wp_footer';
-        if ('genesis' === get_template()) {
+        $theme = get_template();
+        if ('genesis' === $theme) {
             $hook_name  = 'genesis_before';
-            // $after_hook = 'genesis_after';
+        } else if ('betheme' === $theme) {
+            $hook_name = 'mfn_hook_top';
         } else if (class_exists('Roots\\Sage\\Assets')) {
             $hook_name = 'get_header';
-        } else if (defined('THEME_NAME') && THEME_NAME === 'betheme') {
-            $hook_name = 'mfn_hook_top';
         }
         return $hook_name;
     }
-
 }
