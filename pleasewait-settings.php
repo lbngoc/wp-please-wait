@@ -1,7 +1,7 @@
 <?php
 class WpPleaseWait_SettingsPage
 {
-    const CURRENT_VERSION = '1.0.3';
+    const CURRENT_VERSION = '1.0.4';
     const GITHUB_URL = 'https://github.com/lbngoc/wp-please-wait'; // null|string
     const PLUGIN_URL = 'https://wordpress.org/support/plugin/wp-pleasewait'; // null|string
     const DEMO_URL   = 'http://pathgather.github.io/please-wait';
@@ -17,11 +17,12 @@ class WpPleaseWait_SettingsPage
         'bg_color'            => '#f46d3b',
         'text_color'          => '#eeeeee',
         'loading_template'    => '<div class="pg-loading-inner">
-      <div class="pg-loading-center-outer">
-        <div class="pg-loading-center-middle">
-            %s
-      </div></div></div>',
+          <div class="pg-loading-center-outer">
+            <div class="pg-loading-center-middle">
+                %s
+          </div></div></div>',
         'spinner_styles'      => array(
+            '0-no-spinner'      => '',
             '1-rotating-plane'  => '<div class="sk-rotating-plane"></div>',
             '2-double-bounce'   => '<div class="sk-double-bounce">
           <div class="sk-child sk-double-bounce1"></div>
@@ -100,7 +101,8 @@ class WpPleaseWait_SettingsPage
         ),
         'spinner_style'       => '3-wave',
         'spinner_scale'       => 1,
-        'timeout'             => 10,
+        'timeout'             => 10, // s
+        'delay'               => 100, //ms
         'allow_tags'          => '<p><a><strong><em><span><img>',
     );
 
@@ -130,6 +132,16 @@ class WpPleaseWait_SettingsPage
         return self::$instance;
     }
 
+    /**
+     * Remove all settings in database
+     */
+    public function clear_settings() {
+        delete_option('wppleasewait_settings');
+    }
+
+    /**
+     * Get assets URL
+     */
     public function get_assets_url($path)
     {
         return plugins_url($path, __FILE__);
@@ -302,11 +314,29 @@ class WpPleaseWait_SettingsPage
         );
         add_settings_field(
             'timeout',
-            'Max display time',
+            'Max Display Time',
             array($this, 'timeout_callback'),
             'wppleasewait-setting-admin',
             'setting_section_id'
         );
+        add_settings_field(
+            'delay',
+            'Disappearance Delay Time',
+            array($this, 'delay_callback'),
+            'wppleasewait-setting-admin',
+            'setting_section_id'
+      );
+    }
+
+    private function is_valid_color($color) {
+      if (empty($color)) {
+          return false;
+      } else if ($color[0] === "#") {
+          $color = substr($color, 1);
+          return in_array(strlen($color), [3, 4, 6, 8]) && ctype_xdigit($color);
+      } else {
+          return preg_match("/^(rgb|hsl)a?\((\d+%?(deg|rad|grad|turn)?[,\s]+){2,3}[\s\/]*[\d\.]+%?\)$/i", $color);
+      }
     }
 
     /**
@@ -317,17 +347,8 @@ class WpPleaseWait_SettingsPage
     public function sanitize($input)
     {
         if (isset($_POST['reset'])) {
-            return array_merge(array(
-                'use_cdn'            => '',
-                'hook_name'          => '',
-                'bg_color'           => '',
-                'text_color'         => '',
-                'custom_message'     => '',
-                'custom_message_pos' => '',
-                'spinner_style'      => '',
-                'spinner_scale'      => '',
-                'timeout'            => '',
-            ), $this->default_options);
+            // $this->clear_settings();
+            return $this->default_options;
         }
         $new_input = array();
 
@@ -340,25 +361,29 @@ class WpPleaseWait_SettingsPage
         }
 
         if (isset($input['spinner_scale'])) {
-            $new_input['spinner_scale'] = absint($input['spinner_scale']);
+            $new_input['spinner_scale'] = floatval($input['spinner_scale']);
         }
 
         if (isset($input['timeout'])) {
             $new_input['timeout'] = absint($input['timeout']);
         }
 
+        if (isset($input['delay'])) {
+          $new_input['delay'] = absint($input['delay']);
+      }
+
         if (isset($input['hook_name'])) {
             $new_input['hook_name'] = sanitize_text_field($input['hook_name']);
         }
 
         if (isset($input['bg_color'])) {
-            if (preg_match('/^#[a-f0-9]{6}$/i', $input['bg_color'])) {
+            if ($this->is_valid_color($input['text_color'])) {
                 $new_input['bg_color'] = sanitize_text_field($input['bg_color']);
             }
         }
 
         if (isset($input['text_color'])) {
-            if (preg_match('/^#[a-f0-9]{6}$/i', $input['text_color'])) {
+            if ($this->is_valid_color($input['text_color'])) {
                 $new_input['text_color'] = sanitize_text_field($input['text_color']);
             }
         }
@@ -404,7 +429,7 @@ class WpPleaseWait_SettingsPage
             '<input type="text" id="hook_name" name="wppleasewait_settings[hook_name]" value="%s" />',
             isset($this->options['hook_name']) ? esc_attr($this->options['hook_name']) : $rcm_hook_name
         );
-        print '<p class="description">Determine where to output loading screen script.<br/>Recommend for this theme: <code>' . $rcm_hook_name . '</code></p>';
+        print '<p class="description">Determine where to output loading screen script, default: <code>' . $rcm_hook_name . '</code><br/>You should leave this field as default value if you don\'t know about <a href="https://codex.wordpress.org/Plugin_API/Action_Reference" target="_blank">WP Action Hook</a>.</p>';
     }
 
     /**
@@ -439,7 +464,7 @@ class WpPleaseWait_SettingsPage
             isset($this->options['custom_message']) ? esc_attr($this->options['custom_message']) : $this->default_options['custom_message']
         );
         $allow_tags = htmlentities($this->default_options['allow_tags']);
-        printf('<p class="description">You could display random message on each loading screen by enter multiple message here, one message per line.<br/>Allow HTML tags: <code>%s</code></p>', $allow_tags);
+        printf('<p class="description">You could display random message on each loading screen by enter multiple message here, one message per line.<br/>For customize message, you can use filter <code>wp_pleasewait_message</code><br/>Allow HTML tags: <code>%s</code></p>', $allow_tags);
     }
 
     /**
@@ -484,7 +509,7 @@ class WpPleaseWait_SettingsPage
     public function spinner_scale_callback()
     {
         printf(
-            '<input type="text" id="spinner_scale" name="wppleasewait_settings[spinner_scale]" value="%s" />',
+            '<input type="number" id="spinner_scale" min="0.1" step="0.1" name="wppleasewait_settings[spinner_scale]" value="%s" />',
             isset($this->options['spinner_scale']) ? esc_attr($this->options['spinner_scale']) : $this->default_options['spinner_scale']
         );
         printf('<p class="description">Zoom spinner or not, default: <code>%s</code></p>', $this->default_options['spinner_scale']);
@@ -496,10 +521,22 @@ class WpPleaseWait_SettingsPage
     public function timeout_callback()
     {
         printf(
-            '<input type="text" id="timeout" name="wppleasewait_settings[timeout]" value="%s" /> (seconds)',
+            '<input type="number" id="timeout" min="0" step="10" name="wppleasewait_settings[timeout]" value="%s" /> (seconds)',
             isset($this->options['timeout']) ? esc_attr($this->options['timeout']) : $this->default_options['timeout']
         );
         printf('<p class="description">Maximum timeout to display loading screen, set <code>0</code> to disable, default: <code>%s</code></p>', $this->default_options['timeout']);
+    }
+
+    /**
+     * Get the timeout option and print its input control
+     */
+    public function delay_callback()
+    {
+        printf(
+            '<input type="number" id="delay" min="0" step="10" name="wppleasewait_settings[delay]" value="%s" /> (milliseconds)',
+            isset($this->options['delay']) ? esc_attr($this->options['delay']) : $this->default_options['delay']
+        );
+        printf('<p class="description">Delay timeout to hide loading screen after finish, set <code>0</code> to disable, default: <code>%s</code></p>', $this->default_options['delay']);
     }
 
     /**
@@ -508,18 +545,6 @@ class WpPleaseWait_SettingsPage
     public function get_options()
     {
         $options = $this->options ? $this->options : array();
-        $message = isset($options['custom_message']) ? trim($options['custom_message']) : '';
-        if (!empty($message)) {
-            $message = explode("\n", $message);
-            shuffle($message);
-            $message = reset($message);
-        }
-        $tpl_spinner = '<div class="pg-loading-html"></div>';
-        $tpl_loading = '<div class="loading-message">' . $message . '</div>';
-        $tpl_loading = isset($options['custom_message_pos']) && $options['custom_message_pos'] === 'below'
-        ? $tpl_spinner . $tpl_loading
-        : $tpl_loading . $tpl_spinner;
-        $options['loading_template'] = sprintf($this->default_options['loading_template'], $tpl_loading);
         return array_merge($this->default_options, $options);
     }
 
@@ -536,9 +561,13 @@ class WpPleaseWait_SettingsPage
             $hook_name  = 'genesis_before';
         } else if ('betheme' === $theme) {
             $hook_name = 'mfn_hook_top';
+        }  else if ('avada' === $theme) {
+            $hook_name = 'avada_before_body_content';
         } else if (class_exists('Roots\\Sage\\Assets')) {
             $hook_name = 'get_header';
         }
+
         return $hook_name;
     }
+
 }
