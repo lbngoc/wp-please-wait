@@ -1,7 +1,7 @@
 <?php
 class WpPleaseWait_SettingsPage
 {
-    const CURRENT_VERSION = '1.0.4';
+    const CURRENT_VERSION = '2.0';
     const GITHUB_URL = 'https://github.com/lbngoc/wp-please-wait'; // null|string
     const PLUGIN_URL = 'https://wordpress.org/support/plugin/wp-pleasewait'; // null|string
     const DEMO_URL   = 'http://pathgather.github.io/please-wait';
@@ -13,6 +13,8 @@ class WpPleaseWait_SettingsPage
     private static $instance;
 
     private $default_options = array(
+        'auto_mode'           => true,
+        'test_mode'           => false,
         'use_cdn'             => false,
         'bg_color'            => '#f46d3b',
         'text_color'          => '#eeeeee',
@@ -95,7 +97,9 @@ class WpPleaseWait_SettingsPage
           <div class="sk-cube3 sk-cube"></div>
         </div>',
         ),
-        'custom_message_poss' => array(
+        'custom_message'      => '<em style="font-size: x-large">Welcome</em>',
+        'custom_message_pos'  => 'above',
+        'custom_message_pos_list' => array(
             'above' => 'Above the spinner',
             'below' => 'Below the spinner',
         ),
@@ -103,7 +107,7 @@ class WpPleaseWait_SettingsPage
         'spinner_scale'       => 1,
         'timeout'             => 10, // s
         'delay'               => 100, //ms
-        'allow_tags'          => '<p><a><strong><em><span><img>',
+        'allow_tags'          => '<h1><h2><h3><p><a><strong><em><span><img>',
     );
 
     /**
@@ -114,8 +118,7 @@ class WpPleaseWait_SettingsPage
         $this->options = get_option('wppleasewait_settings');
         $this->default_options['hook_name'] = $this->get_hook_name();
         if (is_admin()) {
-            wp_enqueue_style('wp-color-picker');
-            wp_enqueue_script('wp-color-picker');
+            add_action('admin_enqueue_scripts', array($this, 'load_admin_assets'), 9 );
             add_action('admin_menu', array($this, 'add_plugin_page'));
             add_action('admin_init', array($this, 'page_init'));
         }
@@ -137,6 +140,14 @@ class WpPleaseWait_SettingsPage
      */
     public function clear_settings() {
         delete_option('wppleasewait_settings');
+    }
+
+    /**
+     * Assets file for WP Pleasewait Settings
+     */
+    public function load_admin_assets() {
+        wp_enqueue_style('wp-color-picker');
+        wp_enqueue_script('wp-color-picker');
     }
 
     /**
@@ -175,15 +186,22 @@ class WpPleaseWait_SettingsPage
                 <div id="post-body-content">
                   <div class="stuffbox">
                     <form method="post" action="options.php">
-                    <?php
-                        // This prints out all hidden setting fields
-                        settings_fields('wppleasewait');
-                        do_settings_sections('wppleasewait-setting-admin');
-                    ?>
+                      <p class="submit">
+                        <?php
+                            submit_button("Reset to defaults", 'secondary', null, false, ['name' => 'reset']);
+                            submit_button("Save changes", 'primary pull-right', 'submit', false);
+                        ?>
+                      </p>
+                      <hr/>
+                        <?php
+                            // This prints out all hidden setting fields
+                            settings_fields('wppleasewait');
+                            do_settings_sections('wppleasewait-setting-admin');
+                        ?>
                       <hr/>
                       <p class="submit">
                         <?php
-                            submit_button("Reset to defaults", 'secondary', 'reset', false);
+                            submit_button("Reset to defaults", 'secondary', null, false, ['name' => 'reset']);
                             submit_button("Save changes", 'primary pull-right', 'submit', false);
                         ?>
                       </p>
@@ -227,7 +245,19 @@ class WpPleaseWait_SettingsPage
         <style type="text/css">.stuffbox { padding: 0 20px }.full-width{width:100%}.pull-right{float: right;}</style>
         <script type="text/javascript">(function($){
           $(document).ready(function() {
-            $('.wp-color-picker').wpColorPicker()
+            $.fn.wpColorPicker && $('.wp-color-picker').wpColorPicker();
+            $('.button[name="reset"]').click(function(e) {
+                if (!window.confirm('Are you sure you want to reset all settings?')) {
+                    e.preventDefault();
+                }
+            });
+            $('input#auto_mode').change(function(e) {
+                if ($(e.target).is(':checked')) {
+                    $('tr.hook_name').fadeOut(500);
+                } else {
+                    $('tr.hook_name').fadeIn(500);
+                }
+            });
           });
         })(jQuery);</script>
         <?php
@@ -252,9 +282,9 @@ class WpPleaseWait_SettingsPage
         );
 
         add_settings_field(
-            'use_cdn',
-            'Use CDN',
-            array($this, 'use_cdn_callback'),
+            'auto_mode',
+            'Auto Mode',
+            array($this, 'auto_mode_callback'),
             'wppleasewait-setting-admin',
             'setting_section_id'
         );
@@ -263,6 +293,23 @@ class WpPleaseWait_SettingsPage
             'hook_name',
             'Hook Name',
             array($this, 'hook_name_callback'),
+            'wppleasewait-setting-admin',
+            'setting_section_id',
+            array('class' => 'hook_name ' . ($this->options['auto_mode'] ? 'hidden' : ''))
+        );
+
+        add_settings_field(
+            'test_mode',
+            'Testing Mode',
+            array($this, 'test_mode_callback'),
+            'wppleasewait-setting-admin',
+            'setting_section_id'
+        );
+
+        add_settings_field(
+            'use_cdn',
+            'Use CDN',
+            array($this, 'use_cdn_callback'),
             'wppleasewait-setting-admin',
             'setting_section_id'
         );
@@ -352,8 +399,22 @@ class WpPleaseWait_SettingsPage
         }
         $new_input = array();
 
+        if (isset($input['auto_mode'])) { // checked
+            $new_input['auto_mode'] = ($input['auto_mode'] === 'yes');
+        } else {
+            $new_input['auto_mode'] = false;
+        }
+
+        if (isset($input['test_mode'])) { // checked
+            $new_input['test_mode'] = ($input['test_mode'] === 'yes');
+        } else {
+            $new_input['test_mode'] = false;
+        }
+
         if (isset($input['use_cdn'])) {
-            $new_input['use_cdn'] = $input['use_cdn'] === 'yes';
+            $new_input['use_cdn'] = ($input['use_cdn'] === 'yes');
+        } else {
+            $new_input['use_cdn'] = false;
         }
 
         if (isset($input['spinner_style'])) {
@@ -408,15 +469,42 @@ class WpPleaseWait_SettingsPage
     }
 
     /**
+     * Get the auto_mode option and print its input control
+     */
+    public function auto_mode_callback()
+    {
+        $current = isset($this->options['auto_mode']) ? $this->options['auto_mode'] : $this->default_options['auto_mode'];
+        printf(
+            '<input type="checkbox" id="auto_mode" name="wppleasewait_settings[auto_mode]" value="yes" %s />',
+            checked($current, true, false)
+        );
+        print '<label for="auto_mode"><p class="description" style="display:inline;vertical-align:bottom">Auto add plugin scripts after <code>&lt;body&gt;</code> tag.</p></label>';
+    }
+
+    /**
+     * Get the test_mode option and print its input control
+     */
+    public function test_mode_callback()
+    {
+        $current = isset($this->options['test_mode']) ? $this->options['test_mode'] : $this->default_options['test_mode'];
+        printf(
+            '<input type="checkbox" id="test_mode" name="wppleasewait_settings[test_mode]" value="yes" %s />',
+            checked($current, true, false)
+        );
+        print '<label for="test_mode"><p class="description" style="display:inline;vertical-align:bottom">Force show loading screen for admin user.</p></label>';
+    }
+
+    /**
      * Get the use_cdn option and print its input control
      */
     public function use_cdn_callback()
     {
+        $current = isset($this->options['use_cdn']) ? $this->options['use_cdn'] : $this->default_options['use_cdn'];
         printf(
             '<input type="checkbox" id="use_cdn" name="wppleasewait_settings[use_cdn]" value="yes" %s />',
-            checked($this->options['use_cdn'], true, false)
+            checked($current, true, false)
         );
-        print '<span class="description">Check if you want to load assets from CDN</span>';
+        print '<label for="use_cdn"><p class="description" style="display:inline;vertical-align:bottom">Load plugin assets from CDN instead of your server.</p></label>';
     }
 
     /**
@@ -474,7 +562,7 @@ class WpPleaseWait_SettingsPage
     {
         $value = isset($this->options['custom_message_pos']) ? $this->options['custom_message_pos'] : $this->default_options['custom_message_pos'];
         print('<select type="text" id="custom_message_pos" name="wppleasewait_settings[custom_message_pos]">');
-        foreach ($this->default_options['custom_message_poss'] as $key => $desc) {
+        foreach ($this->default_options['custom_message_pos_list'] as $key => $desc) {
             printf('<option value="%s" %s>%s</option>',
                 $key,
                 selected($key, $value, false),

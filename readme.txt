@@ -1,12 +1,12 @@
 === WP PleaseWait ===
 Donate link: https://ko-fi.com/ngoclb
-Tags: pleasewait, loading, loader, spa, animation, loading screen, loading page, page effects, page loader, splash screen
-Stable tag: 1.0.4
+Tags: pleasewait, loading, loader, spa, animation, loading screen, loading page, page effects, page loader, spash, splash screen
+Stable tag: 2.0
 Requires PHP: 5.4.33
 Requires at least: 3.3
-Tested up to: 5.1.1
+Tested up to: 5.2.1
 
-This plugin allow you to use [pleasewait](https://pathgather.github.io/please-wait) to show a beautiful loading page for your website while it loads.
+Auto adding an awesome splash screen for all pages in your website while it loading assets with [pleasewait](https://pathgather.github.io/please-wait) library. You can also customize the background, text color, timing and everything in admin dashboard!
 
 == Description ==
 
@@ -14,6 +14,8 @@ This plugin allow you to use [pleasewait](https://pathgather.github.io/please-wa
 PleaseWait is a small Javascript library that shows a beautiful loading page for your SPA while it loads.
 
 = Features: =
+* Auto place script for best user experience
+* Testing mode for admin user
 * Load assets from CDN
 * Awesome spinner by SpinKit
 * Custom loading message by filter or randomize
@@ -49,6 +51,11 @@ Just have fun.
 2. WP PleaseWait Loading Screen
 
 == Changelog ==
+**2.0**
+- Add new option "Auto Mode"
+- Add new option "Testing Mode"
+- Allow `<h1>`, `<h2>`, `<h3>` tag in "Message Text" field
+
 **1.0.4**
 - Add new option: "Disappearance Delay Time"
 - Add new spinner style "0-no-spinner" to show/hide the spinner
