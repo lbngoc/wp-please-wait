@@ -1,7 +1,7 @@
 <?php
 class WpPleaseWait_SettingsPage
 {
-    const CURRENT_VERSION = '2.0';
+    const CURRENT_VERSION = '2.0.2';
     const GITHUB_URL = 'https://github.com/lbngoc/wp-please-wait'; // null|string
     const PLUGIN_URL = 'https://wordpress.org/support/plugin/wp-pleasewait'; // null|string
     const DEMO_URL   = 'http://pathgather.github.io/please-wait';

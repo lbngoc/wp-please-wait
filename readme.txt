@@ -1,12 +1,13 @@
 === WP PleaseWait ===
+Contributors: ngoclb
 Donate link: https://ko-fi.com/ngoclb
 Tags: pleasewait, loading, loader, spa, animation, loading screen, loading page, page effects, page loader, spash, splash screen
-Stable tag: 2.0
+Stable tag: 2.0.2
 Requires PHP: 5.4.33
 Requires at least: 3.3
-Tested up to: 5.2.1
+Tested up to: 5.2.2
 
-Auto adding an awesome splash screen for all pages in your website while it loading assets with [pleasewait](https://pathgather.github.io/please-wait) library. You can also customize the background, text color, timing and everything in admin dashboard!
+Display an awesome splash screen while your website loading assets. You can easily customize the background, text color, timing and everything!
 
 == Description ==
 
@@ -20,13 +21,14 @@ PleaseWait is a small Javascript library that shows a beautiful loading page for
 * Awesome spinner by SpinKit
 * Custom loading message by filter or randomize
 * Custom appearance styles from WP Admin
+* Support [LiteSpeed Cache](https://wordpress.org/plugins/litespeed-cache/) (Turn off "CSS Combine" and "JS Combine" to make sure the plugin working perfectly)
 * Support [Genesis framework](https://my.studiopress.com/themes/genesis/)
 * Support [Roots Sage Starter Theme](https://roots.io/sage/)
 * Support [BeTheme](https://themes.muffingroup.com/be/splash/)
 * Support [Avada Theme](https://avada.theme-fusion.com/)
 
-Author: [Ngoc L.](http://ngoclb.com/project/wp-please-wait)
-Open Source: [https://github.com/lbngoc/wp-please-wait](https://github.com/lbngoc/wp-please-wait)
+Project URL: [Ngoc L.B.](http://ngoclb.com/project/wp-please-wait)
+Source Code URL: [https://github.com/lbngoc/wp-please-wait](https://github.com/lbngoc/wp-please-wait)
 
 == Installation ==
 
@@ -51,6 +53,13 @@ Just have fun.
 2. WP PleaseWait Loading Screen
 
 == Changelog ==
+
+**2.0.2**
+- Fix bug display a white screen when LiteSpeed Cache plugin is activated
+
+**2.0.2**
+- Support LiteSpeed Cache plugin
+
 **2.0**
 - Add new option "Auto Mode"
 - Add new option "Testing Mode"

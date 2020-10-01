@@ -4,7 +4,7 @@
 Plugin Name:  WP PleaseWait
 Plugin URI:   https://ngoclb.com/project/wp-please-wait
 Description:  Add PleaseWait loading screen to currrent theme
-Version:      2.0
+Version:      2.0.2
 Author:       Ngoc LB
 Author URI:   https://ngoclb.com/
 License:      MIT License
@@ -27,6 +27,7 @@ class WpPleaseWait {
     $this->options = WpPleaseWait_SettingsPage::getInstance()->get_options();
     // var_dump($this->options); die;
     $this->load_actions();
+    $this->load_filters();
   }
 
   public function uninstall() {
@@ -60,12 +61,27 @@ class WpPleaseWait {
     wp_enqueue_style( 'spinkit',
       ( $this->options['use_cdn'] ? 'https://cdnjs.cloudflare.com/ajax/libs/spinkit/1.2.5' : WpPleaseWait_SettingsPage::getInstance()->get_assets_url('assets') )
       . '/spinkit.min.css' );
-    wp_enqueue_style( 'please-wait-css',
+    wp_enqueue_style( 'please-wait-style',
       ( $this->options['use_cdn'] ? 'https://cdnjs.cloudflare.com/ajax/libs/please-wait/0.0.5' : WpPleaseWait_SettingsPage::getInstance()->get_assets_url('assets') )
       . '/please-wait.min.css' );
     wp_enqueue_script( 'please-wait-js',
       ( $this->options['use_cdn'] ? 'https://cdnjs.cloudflare.com/ajax/libs/please-wait/0.0.5' : WpPleaseWait_SettingsPage::getInstance()->get_assets_url('assets') )
      . '/please-wait.min.js', array(), '0.0.5', false );
+  }
+
+  function load_filters() {
+    add_filter( 'script_loader_tag', array( $this, 'add_data_attribute'), 10, 2 );
+    add_filter( 'style_loader_tag', array( $this, 'add_data_attribute'), 10, 2 );
+  }
+
+  function add_data_attribute($tag, $handle) {
+    if ( $handle === 'please-wait-style') {
+      return str_replace(' href', ' data-no-async="1" data-no-optimize="1" href', $tag);
+    } else if ($handle === 'please-wait-js') {
+      return str_replace(' src', ' data-no-defer="1" data-no-optimize="1" src', $tag);
+    }
+
+    return $tag;
   }
 
   function combine_to_oneline($html_css_js, $rm_trailing_space = true) {
@@ -159,7 +175,7 @@ CSS;
     function hideLoadingScreen() { !isTestMode && loadingScreen.finish(); }
     document.addEventListener("DOMContentLoaded", function() { setTimeout(hideLoadingScreen, {$delayMs}) });
     !!(${timeoutMs}) && setTimeout(hideLoadingScreen, {$timeoutMs}*1000);
-  }
+  } else { rootelem.className += ' pg-loaded no-pleasewaitjs'; }
 JS;
     $plugin_info = $this->get_plugin_info();
     $js_code = sprintf("<script type='text/javascript'>%s</script>", $this->combine_to_oneline($js));
