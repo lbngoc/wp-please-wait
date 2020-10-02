@@ -2,12 +2,12 @@
 Contributors: ngoclb
 Donate link: https://ko-fi.com/ngoclb
 Tags: pleasewait, loading, loader, spa, animation, loading screen, loading page, page effects, page loader, spash, splash screen
-Stable tag: 2.0.2
+Stable tag: 2.1.0
 Requires PHP: 5.4.33
 Requires at least: 3.3
-Tested up to: 5.2.2
+Tested up to: 5.5.1
 
-Display an awesome splash screen while your website loading assets. You can easily customize the background, text color, timing and everything!
+Display an awesome splash screen while your website loading assets. You can easily customize the spinner (12 styles), background, text color, timing and everything!
 
 == Description ==
 
@@ -18,7 +18,7 @@ PleaseWait is a small Javascript library that shows a beautiful loading page for
 * Auto place script for best user experience
 * Testing mode for admin user
 * Load assets from CDN
-* Awesome spinner by SpinKit
+* Awesome spinner by SpinKit v2 (12 spinner styles)
 * Custom loading message by filter or randomize
 * Custom appearance styles from WP Admin
 * Support [LiteSpeed Cache](https://wordpress.org/plugins/litespeed-cache/) (Turn off "CSS Combine" and "JS Combine" to make sure the plugin working perfectly)
@@ -53,6 +53,9 @@ Just have fun.
 2. WP PleaseWait Loading Screen
 
 == Changelog ==
+
+**2.1.0**
+- Update to SkinKit v2.0.1
 
 **2.0.2**
 - Fix bug display a white screen when LiteSpeed Cache plugin is activated

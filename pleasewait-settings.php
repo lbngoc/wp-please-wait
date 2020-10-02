@@ -1,10 +1,13 @@
 <?php
 class WpPleaseWait_SettingsPage
 {
-    const CURRENT_VERSION = '2.0.2';
+    const CURRENT_VERSION    = '2.1.0';
+    const SPINKIT_VERSION    = '2.0.1'; // https: //github.com/tobiasahlin/SpinKit
+    const PLEASEWAIT_VERSION = '0.0.5'; // https: //github.com/Pathgather/please-wait
     const GITHUB_URL = 'https://github.com/lbngoc/wp-please-wait'; // null|string
     const PLUGIN_URL = 'https://wordpress.org/support/plugin/wp-pleasewait'; // null|string
     const DEMO_URL   = 'http://pathgather.github.io/please-wait';
+    const AUTHOR_URL = 'https://ngoclb.com/project/wp-please-wait';
 
     /**
      * Holds the values to be used in the fields callbacks
@@ -24,78 +27,87 @@ class WpPleaseWait_SettingsPage
                 %s
           </div></div></div>',
         'spinner_styles'      => array(
-            '0-no-spinner'      => '',
-            '1-rotating-plane'  => '<div class="sk-rotating-plane"></div>',
-            '2-double-bounce'   => '<div class="sk-double-bounce">
-          <div class="sk-child sk-double-bounce1"></div>
-          <div class="sk-child sk-double-bounce2"></div>
-        </div>',
-            '3-wave'            => '<div class="sk-wave">
-          <div class="sk-rect sk-rect1"></div>
-          <div class="sk-rect sk-rect2"></div>
-          <div class="sk-rect sk-rect3"></div>
-          <div class="sk-rect sk-rect4"></div>
-          <div class="sk-rect sk-rect5"></div>
-        </div>',
-            '4-wandering-cubes' => '<div class="sk-wandering-cubes">
-          <div class="sk-cube sk-cube1"></div>
-          <div class="sk-cube sk-cube2"></div>
-        </div>',
-            '5-pulse'           => ' <div class="sk-spinner sk-spinner-pulse"></div>',
-            '6-chasing-dots'    => '<div class="sk-chasing-dots">
-          <div class="sk-child sk-dot1"></div>
-          <div class="sk-child sk-dot2"></div>
-        </div>',
-            '7-three-bounce'    => '<div class="sk-three-bounce">
-          <div class="sk-child sk-bounce1"></div>
-          <div class="sk-child sk-bounce2"></div>
-          <div class="sk-child sk-bounce3"></div>
-        </div>',
-            '8-circle'          => '<div class="sk-circle">
-          <div class="sk-circle1 sk-child"></div>
-          <div class="sk-circle2 sk-child"></div>
-          <div class="sk-circle3 sk-child"></div>
-          <div class="sk-circle4 sk-child"></div>
-          <div class="sk-circle5 sk-child"></div>
-          <div class="sk-circle6 sk-child"></div>
-          <div class="sk-circle7 sk-child"></div>
-          <div class="sk-circle8 sk-child"></div>
-          <div class="sk-circle9 sk-child"></div>
-          <div class="sk-circle10 sk-child"></div>
-          <div class="sk-circle11 sk-child"></div>
-          <div class="sk-circle12 sk-child"></div>
-        </div>',
-            '9-cube-grid'       => '<div class="sk-cube-grid">
-          <div class="sk-cube sk-cube1"></div>
-          <div class="sk-cube sk-cube2"></div>
-          <div class="sk-cube sk-cube3"></div>
-          <div class="sk-cube sk-cube4"></div>
-          <div class="sk-cube sk-cube5"></div>
-          <div class="sk-cube sk-cube6"></div>
-          <div class="sk-cube sk-cube7"></div>
-          <div class="sk-cube sk-cube8"></div>
-          <div class="sk-cube sk-cube9"></div>
-        </div>',
-            '10-fading-circle'  => '<div class="sk-fading-circle">
-          <div class="sk-circle1 sk-circle"></div>
-          <div class="sk-circle2 sk-circle"></div>
-          <div class="sk-circle3 sk-circle"></div>
-          <div class="sk-circle4 sk-circle"></div>
-          <div class="sk-circle5 sk-circle"></div>
-          <div class="sk-circle6 sk-circle"></div>
-          <div class="sk-circle7 sk-circle"></div>
-          <div class="sk-circle8 sk-circle"></div>
-          <div class="sk-circle9 sk-circle"></div>
-          <div class="sk-circle10 sk-circle"></div>
-          <div class="sk-circle11 sk-circle"></div>
-          <div class="sk-circle12 sk-circle"></div>
-        </div>',
-            '11-folding-cube'   => '<div class="sk-folding-cube">
-          <div class="sk-cube1 sk-cube"></div>
-          <div class="sk-cube2 sk-cube"></div>
-          <div class="sk-cube4 sk-cube"></div>
-          <div class="sk-cube3 sk-cube"></div>
-        </div>',
+            'None' => '',
+            'Plane' => '<div class="sk-plane"></div>',
+            'Chase' => '<div class="sk-chase">
+                <div class="sk-chase-dot"></div>
+                <div class="sk-chase-dot"></div>
+                <div class="sk-chase-dot"></div>
+                <div class="sk-chase-dot"></div>
+                <div class="sk-chase-dot"></div>
+                <div class="sk-chase-dot"></div>
+            </div>',
+            'Bounce' => '<div class="sk-bounce">
+                <div class="sk-bounce-dot"></div>
+                <div class="sk-bounce-dot"></div>
+            </div>',
+            'Wave' => '<div class="sk-wave">
+                <div class="sk-wave-rect"></div>
+                <div class="sk-wave-rect"></div>
+                <div class="sk-wave-rect"></div>
+                <div class="sk-wave-rect"></div>
+                <div class="sk-wave-rect"></div>
+            </div>',
+            'Pulse' => '<div class="sk-pulse"></div>',
+            'Flow' => '<div class="sk-flow">
+                <div class="sk-flow-dot"></div>
+                <div class="sk-flow-dot"></div>
+                <div class="sk-flow-dot"></div>
+            </div>',
+            'Swing' => '<div class="sk-swing">
+                <div class="sk-swing-dot"></div>
+                <div class="sk-swing-dot"></div>
+            </div>',
+            'Circle' => '<div class="sk-circle">
+                <div class="sk-circle-dot"></div>
+                <div class="sk-circle-dot"></div>
+                <div class="sk-circle-dot"></div>
+                <div class="sk-circle-dot"></div>
+                <div class="sk-circle-dot"></div>
+                <div class="sk-circle-dot"></div>
+                <div class="sk-circle-dot"></div>
+                <div class="sk-circle-dot"></div>
+                <div class="sk-circle-dot"></div>
+                <div class="sk-circle-dot"></div>
+                <div class="sk-circle-dot"></div>
+                <div class="sk-circle-dot"></div>
+            </div>',
+            'Circle Fade' => '<div class="sk-circle-fade">
+                <div class="sk-circle-fade-dot"></div>
+                <div class="sk-circle-fade-dot"></div>
+                <div class="sk-circle-fade-dot"></div>
+                <div class="sk-circle-fade-dot"></div>
+                <div class="sk-circle-fade-dot"></div>
+                <div class="sk-circle-fade-dot"></div>
+                <div class="sk-circle-fade-dot"></div>
+                <div class="sk-circle-fade-dot"></div>
+                <div class="sk-circle-fade-dot"></div>
+                <div class="sk-circle-fade-dot"></div>
+                <div class="sk-circle-fade-dot"></div>
+                <div class="sk-circle-fade-dot"></div>
+            </div>',
+            'Grid' => '<div class="sk-grid">
+                <div class="sk-grid-cube"></div>
+                <div class="sk-grid-cube"></div>
+                <div class="sk-grid-cube"></div>
+                <div class="sk-grid-cube"></div>
+                <div class="sk-grid-cube"></div>
+                <div class="sk-grid-cube"></div>
+                <div class="sk-grid-cube"></div>
+                <div class="sk-grid-cube"></div>
+                <div class="sk-grid-cube"></div>
+            </div>',
+            'Fold' => '<div class="sk-fold">
+                <div class="sk-fold-cube"></div>
+                <div class="sk-fold-cube"></div>
+                <div class="sk-fold-cube"></div>
+                <div class="sk-fold-cube"></div>
+            </div>',
+            'Wander' => '<div class="sk-wander">
+                <div class="sk-wander-cube"></div>
+                <div class="sk-wander-cube"></div>
+                <div class="sk-wander-cube"></div>
+            </div>'
         ),
         'custom_message'      => '<em style="font-size: x-large">Welcome</em>',
         'custom_message_pos'  => 'above',
@@ -103,8 +115,9 @@ class WpPleaseWait_SettingsPage
             'above' => 'Above the spinner',
             'below' => 'Below the spinner',
         ),
-        'spinner_style'       => '3-wave',
-        'spinner_scale'       => 1,
+        'spinner_style'       => 'Wave',
+        'spinner_scale'       => 1,  // hidden since 2.1.0
+        'sk_size'             => 40, // px
         'timeout'             => 10, // s
         'delay'               => 100, //ms
         'allow_tags'          => '<h1><h2><h3><p><a><strong><em><span><img>',
@@ -118,7 +131,7 @@ class WpPleaseWait_SettingsPage
         $this->options = get_option('wppleasewait_settings');
         $this->default_options['hook_name'] = $this->get_hook_name();
         if (is_admin()) {
-            add_action('admin_enqueue_scripts', array($this, 'load_admin_assets'), 9 );
+            add_action('admin_enqueue_scripts', array($this, 'load_admin_assets'), 9);
             add_action('admin_menu', array($this, 'add_plugin_page'));
             add_action('admin_init', array($this, 'page_init'));
         }
@@ -138,16 +151,19 @@ class WpPleaseWait_SettingsPage
     /**
      * Remove all settings in database
      */
-    public function clear_settings() {
+    public function clear_settings()
+    {
         delete_option('wppleasewait_settings');
     }
 
     /**
      * Assets file for WP Pleasewait Settings
      */
-    public function load_admin_assets() {
+    public function load_admin_assets()
+    {
         wp_enqueue_style('wp-color-picker');
         wp_enqueue_script('wp-color-picker');
+        wp_enqueue_style('spinkit-css', $this->get_assets_url('assets') . '/spinkit.min.css');
     }
 
     /**
@@ -156,6 +172,17 @@ class WpPleaseWait_SettingsPage
     public function get_assets_url($path)
     {
         return plugins_url($path, __FILE__);
+    }
+
+    /**
+     * Get dashboard primary color
+     */
+    private function get_admin_color_scheme($index = 0)
+    {
+        global $_wp_admin_css_colors;
+        $current_color = get_user_option('admin_color');
+        $color = $_wp_admin_css_colors[$current_color]->colors[$index];
+        return $color;
     }
 
     /**
@@ -178,90 +205,111 @@ class WpPleaseWait_SettingsPage
      */
     public function create_admin_page()
     {
-        ?>
+?>
         <div class="wrap">
             <h1>WP PleaseWait Settings <small style="float: right; font-size: 50%"><?php echo self::CURRENT_VERSION; ?></small></h1>
             <div id="poststuff">
-              <div id="post-body" class="columns-2">
-                <div id="post-body-content">
-                  <div class="stuffbox">
-                    <form method="post" action="options.php">
-                      <p class="submit">
-                        <?php
-                            submit_button("Reset to defaults", 'secondary', null, false, ['name' => 'reset']);
-                            submit_button("Save changes", 'primary pull-right', 'submit', false);
-                        ?>
-                      </p>
-                      <hr/>
-                        <?php
-                            // This prints out all hidden setting fields
-                            settings_fields('wppleasewait');
-                            do_settings_sections('wppleasewait-setting-admin');
-                        ?>
-                      <hr/>
-                      <p class="submit">
-                        <?php
-                            submit_button("Reset to defaults", 'secondary', null, false, ['name' => 'reset']);
-                            submit_button("Save changes", 'primary pull-right', 'submit', false);
-                        ?>
-                      </p>
-                    </form>
-                  </div>
-                </div>
-                <div id="postbox-container-1" class="postbox-container">
-                  <div class="postbox">
-                    <h2>Information</h2>
-                    <div class="inside">
-                      <div class="main">
-                          <ul>
-                              <li class="dashicons-before dashicons-admin-links" style="color: #82878c">
-                                  <a href="<?php echo self::DEMO_URL; ?>" style="text-decoration: none" target="_blank">Open PleaseWait Demo</a>
-                              </li>
-                              <?php if (self::GITHUB_URL !== null): ?>
-                              <li class="dashicons-before dashicons-flag" style="color: #82878c">
-                                  <a href="<?php echo self::GITHUB_URL; ?>/issues/new" style="text-decoration: none" target="_blank">Report Bug and Issues</a>
-                              </li>
-                              <?php endif;?>
-                              <?php if (self::PLUGIN_URL !== null): ?>
-                              <li class="dashicons-before dashicons-wordpress" style="color: #82878c">
-                                  <a href="<?php echo self::PLUGIN_URL; ?>" style="text-decoration: none" target="_blank">Plugin Page in WP</a>
-                              </li>
-                              <li class="dashicons-before dashicons-star-filled" style="color: #82878c">
-                                  <a href="<?php echo self::PLUGIN_URL; ?>/reviews/?rate=5#new-post" style="text-decoration: none" target="_blank">
-                                  Rate to this plugin</a>
-                              </li>
-                              <?php endif;?>
-                          </ul>
-                          <hr>
-                          <p style="text-align: center">Plugin was created by <a href="https://ngoclb.com/project/wp-please-wait" style="text-decoration: none" target="_blank">Ngoc Luong</a></p>
-                          <p style="text-align: center"><a href='https://ko-fi.com/L3L4B8JX' target='_blank'><img height='36' style='border:0px;height:36px;' src='<?php echo $this->get_assets_url('assets/kofi2.png'); ?>' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a></p>
-                      </div>
+                <div id="post-body" class="columns-2">
+                    <div id="post-body-content">
+                        <div class="stuffbox">
+                            <form method="post" action="options.php">
+                                <p class="submit">
+                                    <?php
+                                    submit_button("Reset to defaults", 'secondary', null, false, ['name' => 'reset']);
+                                    submit_button("Save changes", 'primary pull-right', 'submit', false);
+                                    ?>
+                                </p>
+                                <hr />
+                                <?php
+                                // This prints out all hidden setting fields
+                                settings_fields('wppleasewait');
+                                do_settings_sections('wppleasewait-setting-admin');
+                                ?>
+                                <hr />
+                                <p class="submit">
+                                    <?php
+                                    submit_button("Reset to defaults", 'secondary', null, false, ['name' => 'reset']);
+                                    submit_button("Save changes", 'primary pull-right', 'submit', false);
+                                    ?>
+                                </p>
+                            </form>
+                        </div>
                     </div>
-                  </div>
+                    <div id="postbox-container-1" class="postbox-container">
+                        <div class="postbox">
+                            <h2>Information</h2>
+                            <div class="inside">
+                                <div class="main">
+                                    <ul>
+                                        <?php if (self::PLUGIN_URL !== null) : ?>
+                                            <li class="dashicons-before dashicons-wordpress" style="color: #82878c">
+                                                <a href="<?php echo self::PLUGIN_URL; ?>" style="text-decoration: none" target="_blank">FAQs & Support</a>
+                                            </li>
+                                            <li class="dashicons-before dashicons-star-filled" style="color: #82878c">
+                                                <a href="<?php echo self::PLUGIN_URL; ?>/reviews/?rate=5#new-post" style="text-decoration: none" target="_blank">
+                                                    Rate this plugin</a>
+                                            </li>
+                                        <?php endif; ?>
+                                        <?php if (self::GITHUB_URL !== null) : ?>
+                                            <li class="dashicons-before dashicons-flag" style="color: #82878c">
+                                                <a href="<?php echo self::GITHUB_URL; ?>/issues/new" style="text-decoration: none" target="_blank">Report an issue</a>
+                                            </li>
+                                        <?php endif; ?>
+                                        <li class="dashicons-before dashicons-admin-links" style="color: #82878c">
+                                            <a href="<?php echo self::AUTHOR_URL; ?>" style="text-decoration: none" target="_blank">Visit author website</a>
+                                        </li>
+                                    </ul>
+                                    <p style="text-align: center"><a href='https://ko-fi.com/L3L4B8JX' style='display: flex; justify-content: center' target='_blank'><img height='36' style='border:0px;height:36px;' src='<?php echo $this->get_assets_url('assets/kofi2.png'); ?>' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
         </div>
-        <style type="text/css">.stuffbox { padding: 0 20px }.full-width{width:100%}.pull-right{float: right;}</style>
-        <script type="text/javascript">(function($){
-          $(document).ready(function() {
-            $.fn.wpColorPicker && $('.wp-color-picker').wpColorPicker();
-            $('.button[name="reset"]').click(function(e) {
-                if (!window.confirm('Are you sure you want to reset all settings?')) {
-                    e.preventDefault();
-                }
-            });
-            $('input#auto_mode').change(function(e) {
-                if ($(e.target).is(':checked')) {
-                    $('tr.hook_name').fadeOut(500);
-                } else {
-                    $('tr.hook_name').fadeIn(500);
-                }
-            });
-          });
-        })(jQuery);</script>
-        <?php
-}
+        <style type="text/css">
+            :root { --sk-size: 30px; --sk-color: <?php
+            echo $this->get_admin_color_scheme(2); ?> }
+            .stuffbox {
+                padding: 0 20px
+            }
+
+            .full-width {
+                width: 100%
+            }
+
+            .pull-right {
+                float: right;
+            }
+        </style>
+        <script type="text/javascript">
+            (function($) {
+                $(document).ready(function() {
+                    $.fn.wpColorPicker && $('.wp-color-picker').wpColorPicker();
+                    $('.button[name="reset"]').click(function(e) {
+                        if (!window.confirm('Are you sure you want to reset all settings?')) {
+                            e.preventDefault();
+                        }
+                    });
+                    $('input#auto_mode').change(function(e) {
+                        if ($(e.target).is(':checked')) {
+                            $('tr.hook_name').fadeOut(500);
+                        } else {
+                            $('tr.hook_name').fadeIn(500);
+                        }
+                    });
+                    $('select#spinner_style').change(function(e) {
+                        if (spinkitStyles) {
+                            let html = spinkitStyles[$(e.target).val()];
+                            (html !== undefined) && $('#preview-html').html(html);
+                        }
+                    })
+                });
+            })(jQuery);
+            var spinkitStyles = <?php echo WpPleaseWait::getInstance()->combine_to_oneline(json_encode($this->default_options['spinner_styles'])); ?>
+        </script>
+<?php
+    }
 
     /**
      * Register and add settings
@@ -352,13 +400,15 @@ class WpPleaseWait_SettingsPage
             'wppleasewait-setting-admin',
             'setting_section_id'
         );
+
         add_settings_field(
-            'spinner_scale',
-            'Spinner Scale',
-            array($this, 'spinner_scale_callback'),
+            'sk_size',
+            'Spinner Size',
+            array($this, 'spinner_size_callback'),
             'wppleasewait-setting-admin',
             'setting_section_id'
         );
+
         add_settings_field(
             'timeout',
             'Max Display Time',
@@ -366,24 +416,26 @@ class WpPleaseWait_SettingsPage
             'wppleasewait-setting-admin',
             'setting_section_id'
         );
+
         add_settings_field(
             'delay',
             'Disappearance Delay Time',
             array($this, 'delay_callback'),
             'wppleasewait-setting-admin',
             'setting_section_id'
-      );
+        );
     }
 
-    private function is_valid_color($color) {
-      if (empty($color)) {
-          return false;
-      } else if ($color[0] === "#") {
-          $color = substr($color, 1);
-          return in_array(strlen($color), [3, 4, 6, 8]) && ctype_xdigit($color);
-      } else {
-          return preg_match("/^(rgb|hsl)a?\((\d+%?(deg|rad|grad|turn)?[,\s]+){2,3}[\s\/]*[\d\.]+%?\)$/i", $color);
-      }
+    private function is_valid_color($color)
+    {
+        if (empty($color)) {
+            return false;
+        } else if ($color[0] === "#") {
+            $color = substr($color, 1);
+            return in_array(strlen($color), [3, 4, 6, 8]) && ctype_xdigit($color);
+        } else {
+            return preg_match("/^(rgb|hsl)a?\((\d+%?(deg|rad|grad|turn)?[,\s]+){2,3}[\s\/]*[\d\.]+%?\)$/i", $color);
+        }
     }
 
     /**
@@ -425,13 +477,17 @@ class WpPleaseWait_SettingsPage
             $new_input['spinner_scale'] = floatval($input['spinner_scale']);
         }
 
+        if (isset($input['sk_size'])) {
+            $new_input['sk_size'] = intval($input['sk_size']);
+        }
+
         if (isset($input['timeout'])) {
             $new_input['timeout'] = absint($input['timeout']);
         }
 
         if (isset($input['delay'])) {
-          $new_input['delay'] = absint($input['delay']);
-      }
+            $new_input['delay'] = absint($input['delay']);
+        }
 
         if (isset($input['hook_name'])) {
             $new_input['hook_name'] = sanitize_text_field($input['hook_name']);
@@ -563,14 +619,14 @@ class WpPleaseWait_SettingsPage
         $value = isset($this->options['custom_message_pos']) ? $this->options['custom_message_pos'] : $this->default_options['custom_message_pos'];
         print('<select type="text" id="custom_message_pos" name="wppleasewait_settings[custom_message_pos]">');
         foreach ($this->default_options['custom_message_pos_list'] as $key => $desc) {
-            printf('<option value="%s" %s>%s</option>',
+            printf(
+                '<option value="%s" %s>%s</option>',
                 $key,
                 selected($key, $value, false),
                 $desc
             );
         }
         print('</select>');
-        // printf('<p class="description">Loader use SpinKit, see <a href="%s" target="_blank">demo here</a>.</p>', 'http://tobiasahlin.com/spinkit/');
     }
 
     /**
@@ -581,26 +637,28 @@ class WpPleaseWait_SettingsPage
         $value = isset($this->options['spinner_style']) ? $this->options['spinner_style'] : $this->default_options['spinner_style'];
         print('<select type="text" id="spinner_style" name="wppleasewait_settings[spinner_style]">');
         foreach (array_keys($this->default_options['spinner_styles']) as $spinner_style) {
-            printf('<option value="%s" %s>%s</option>',
+            printf(
+                '<option value="%s" %s>%s</option>',
                 $spinner_style,
                 selected($spinner_style, $value, false),
                 $spinner_style
             );
         }
         print('</select>');
-        printf('<p class="description">Loader use SpinKit, see <a href="%s" target="_blank">demo here</a>.</p>', 'http://tobiasahlin.com/spinkit/');
+        printf('<div id="preview-html" class="pull-right">%s</div>', $this->default_options['spinner_styles'][$value]);
+        printf('<p class="description">Loader use SpinKit, see more details <a href="%s" target="_blank">at here</a>.</p>', 'http://tobiasahlin.com/spinkit/');
     }
 
     /**
      * Get the spinner_scale option and print its input control
      */
-    public function spinner_scale_callback()
+    public function spinner_size_callback()
     {
         printf(
-            '<input type="number" id="spinner_scale" min="0.1" step="0.1" name="wppleasewait_settings[spinner_scale]" value="%s" />',
-            isset($this->options['spinner_scale']) ? esc_attr($this->options['spinner_scale']) : $this->default_options['spinner_scale']
+            '<input type="number" id="sk_size" min="10" step="1" name="wppleasewait_settings[sk_size]" value="%s" />',
+            isset($this->options['sk_size']) ? esc_attr($this->options['sk_size']) : $this->default_options['sk_size']
         );
-        printf('<p class="description">Zoom spinner or not, default: <code>%s</code></p>', $this->default_options['spinner_scale']);
+        printf('<p class="description">Spinner size (px), default: <code>%s</code></p>', $this->default_options['sk_size']);
     }
 
     /**
@@ -633,6 +691,29 @@ class WpPleaseWait_SettingsPage
     public function get_options()
     {
         $options = $this->options ? $this->options : array();
+        if (isset($options['spinner_scale'])) { // Migrate with older version
+            $options['sk_size'] = floatval($options['spinner_scale']) * $this->default_options['sk_size'];
+            unset($options['spinner_scale']);
+        }
+        if (isset($options['spinner_style'])) {
+            if (!isset($this->default_options['spinner_styles'][$options['spinner_style']])) {
+                $styles_mapping = array(
+                    '0-no-spinner'      => 'None',
+                    '1-rotating-plane'  => 'Plane',
+                    '2-double-bounce'   => 'Bounce',
+                    '3-wave'            => 'Wave',
+                    '4-wandering-cubes' => 'Wander',
+                    '5-pulse'           => 'Pulse',
+                    '6-chasing-dots'    => 'Swing',
+                    '7-three-bounce'    => 'Flow',
+                    '8-circle'          => 'Circle',
+                    '9-cube-grid'       => 'Grid',
+                    '10-fading-circle'  => 'Circle Fade',
+                    '11-folding-cube'   => 'Fold'
+                );
+                $options['spinner_style'] = $styles_mapping[$options['spinner_style']];
+            }
+        }
         return array_merge($this->default_options, $options);
     }
 
@@ -649,7 +730,7 @@ class WpPleaseWait_SettingsPage
             $hook_name  = 'genesis_before';
         } else if ('betheme' === $theme) {
             $hook_name = 'mfn_hook_top';
-        }  else if ('avada' === $theme) {
+        } else if ('avada' === $theme) {
             $hook_name = 'avada_before_body_content';
         } else if (class_exists('Roots\\Sage\\Assets')) {
             $hook_name = 'get_header';
@@ -657,5 +738,4 @@ class WpPleaseWait_SettingsPage
 
         return $hook_name;
     }
-
 }
