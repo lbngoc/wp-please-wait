@@ -2,7 +2,7 @@
 Contributors: ngoclb
 Donate link: https://ko-fi.com/ngoclb
 Tags: pleasewait, loading, loader, spa, animation, loading screen, loading page, page effects, page loader, spash, splash screen
-Stable tag: 2.2.0
+Stable tag: 2.2.1
 Requires PHP: 5.4.33
 Requires at least: 3.3
 Tested up to: 5.5.1
@@ -22,7 +22,6 @@ PleaseWait is a small Javascript library that shows a beautiful loading page for
 * Enable loading screen on whole website or custom rules
 * Custom loading message by filter or randomize
 * Custom appearance styles from WP Admin
-* Support [LiteSpeed Cache](https://wordpress.org/plugins/litespeed-cache/) (Turn off "CSS Combine" and "JS Combine" to make sure the plugin working perfectly)
 * Support [Genesis framework](https://my.studiopress.com/themes/genesis/)
 * Support [Roots Sage Starter Theme](https://roots.io/sage/)
 * Support [BeTheme](https://themes.muffingroup.com/be/splash/)
@@ -56,7 +55,7 @@ Just have fun.
 
 == Changelog ==
 
-**2.2.0**
+**2.2.1**
 - Enable/Disable loading screen by add "Display Scopes" option
 - Add new filter name "wp_pleasewait_enable" for customize where to show loading screen
 
