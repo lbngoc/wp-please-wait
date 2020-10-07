@@ -12,6 +12,8 @@ PleaseWait is a small Javascript library that shows a beautiful loading page for
 
 ![](screenshot-2.png)
 
+![](screenshot-3.png)
+
 # License
 
 MIT License

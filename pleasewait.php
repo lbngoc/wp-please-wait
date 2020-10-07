@@ -4,7 +4,7 @@
 Plugin Name:  WP PleaseWait
 Plugin URI:   https://ngoclb.com/project/wp-please-wait
 Description:  Add PleaseWait loading screen to currrent theme
-Version:      2.1.0
+Version:      2.2.0
 Author:       Ngoc LB
 Author URI:   https://ngoclb.com/
 License:      MIT License
@@ -27,9 +27,8 @@ class WpPleaseWait
     public function __construct()
     {
         $this->options = WpPleaseWait_SettingsPage::getInstance()->get_options();
-        // var_dump($this->options); die;
-        $this->load_actions();
-        $this->load_filters();
+        // print_r($this->options); die;
+        add_action('wp', array($this, 'load_actions'), 1, 0);
     }
 
     public function uninstall()
@@ -48,8 +47,58 @@ class WpPleaseWait
         return self::$instance;
     }
 
+    /**
+     * Check if user enable/disable show PleaseWait screen in this page
+     */
+    function is_pleasewait_screen_enabled()
+    {
+        if (is_admin()) return false;
+        $is_enable = empty($this->options) || empty($this->options['display_scopes']);
+        if (!$is_enable) {
+            $scopes = $this->options['display_scopes'];
+            foreach ($scopes as $scope => $value) {
+                switch ($scope) {
+                    case WpPleaseWait_SettingsPage::SCOPE_FRONT_PAGE:
+                        $is_enable = is_front_page();
+                        // printf('is_front_page: %d', $is_enable);
+                        break;
+                    case WpPleaseWait_SettingsPage::SCOPE_HOME_PAGE:
+                        $is_enable = is_home();
+                        // printf('is_home: %d', $is_enable);
+                        break;
+                    case WpPleaseWait_SettingsPage::SCOPE_ARCHIVE_PAGE:
+                        $is_enable = is_archive();
+                        // printf('is_archive: %d', $is_enable);
+                        break;
+                    case WpPleaseWait_SettingsPage::SCOPE_SEARCH_PAGE:
+                        $is_enable = is_search();
+                        // printf('is_search: %d', $is_enable);
+                        break;
+                    case WpPleaseWait_SettingsPage::SCOPE_SINGLE_PAGE:
+                        $is_enable = is_page();
+                        // printf('is_page: %d', $is_enable);
+                        break;
+                    case WpPleaseWait_SettingsPage::SCOPE_SINGLE_POST:
+                        $is_enable = is_single();
+                        // printf('is_single: %d', $is_enable);
+                        break;
+                    case WpPleaseWait_SettingsPage::SCOPE_INCLUDES_ID:
+                        $ids = isset($scopes[WpPleaseWait_SettingsPage::SCOPE_INCLUDES_ID_VALUE]) ? explode(', ', $scopes[WpPleaseWait_SettingsPage::SCOPE_INCLUDES_ID_VALUE]) : array();
+                        if ($queried_id = get_queried_object_id()) {
+                            $is_enable = in_array($queried_id, $ids);
+                        }
+                        // printf('is_include: %d %d %s', $is_enable, $queried_id, json_encode($ids));
+                        break;
+                }
+                if ($is_enable) break;
+            }
+        }
+        return apply_filters('wp_pleasewait_enable', $is_enable);
+    }
+
     function load_actions()
     {
+        if (!$this->is_pleasewait_screen_enabled()) return;
         // Hook
         add_action('wp_enqueue_scripts', array($this, 'add_styles_scripts'));
         if ($this->options['auto_mode']) {
@@ -125,14 +174,14 @@ class WpPleaseWait
 
     function get_spinner_style_html()
     {
-        return $this->options['spinner_styles'][$this->options['spinner_style']];
+        return WpPleaseWait_SettingsPage::SPINNER_STYLES[$this->options['spinner_style']];
     }
 
     function get_loading_template()
     {
         $message = isset($this->options['custom_message']) ? trim($this->options['custom_message']) : '';
         if (!empty($message)) {
-                $message = explode("\n", $message);
+            $message = explode("\n", $message);
             shuffle($message);
             $message = reset($message);
         }
@@ -160,6 +209,7 @@ class WpPleaseWait
       opacity: 0!important;
       visibility: hidden;
     }
+    .pg-loading-screen .sk-flow { align-items: center }
     .pg-loading-screen .pg-loading-html { margin-top: 0 }
     .pg-loading-screen .pg-loading-html > div { margin: 0 auto}
     .pg-loading-screen .loading-message { color: {$text_color} }
