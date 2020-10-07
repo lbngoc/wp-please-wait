@@ -1,7 +1,7 @@
 <?php
 class WpPleaseWait_SettingsPage
 {
-    const CURRENT_VERSION    = '2.2.0';
+    const CURRENT_VERSION    = '2.2.1';
     const SPINKIT_VERSION    = '2.0.1'; // https: //github.com/tobiasahlin/SpinKit
     const PLEASEWAIT_VERSION = '0.0.5'; // https: //github.com/Pathgather/please-wait
     const GITHUB_URL = 'https://github.com/lbngoc/wp-please-wait'; // null|string
@@ -155,9 +155,8 @@ class WpPleaseWait_SettingsPage
      */
     public function __construct()
     {
-        $this->options = get_option('wppleasewait_settings');
-        // print_r($this->options); die;
         $this->default_options['hook_name'] = $this->get_hook_name();
+        $this->get_options();
         if (is_admin()) {
             add_action('admin_enqueue_scripts', array($this, 'load_admin_assets'), 9);
             add_action('admin_menu', array($this, 'add_plugin_page'));
@@ -856,12 +855,15 @@ class WpPleaseWait_SettingsPage
      */
     public function get_options()
     {
-        $options = $this->options ? $this->options : array();
-        if (isset($options['spinner_scale'])) { // Migrate with older version
-            $options['sk_size'] = floatval($options['spinner_scale']) * $this->default_options['sk_size'];
-            unset($options['spinner_scale']);
+        if (!$this->options) {
+            $options = get_option('wppleasewait_settings', array());
+            if (isset($options['spinner_scale'])) { // Migrate with older version
+                $options['sk_size'] = floatval($options['spinner_scale']) * $this->default_options['sk_size'];
+                unset($options['spinner_scale']);
+            }
+            $this->options = array_merge($this->default_options, $options);
         }
-        return array_merge($this->default_options, $options);
+        return $this->options;
     }
 
     /**

@@ -4,7 +4,7 @@
 Plugin Name:  WP PleaseWait
 Plugin URI:   https://ngoclb.com/project/wp-please-wait
 Description:  Add PleaseWait loading screen to currrent theme
-Version:      2.2.0
+Version:      2.2.1
 Author:       Ngoc LB
 Author URI:   https://ngoclb.com/
 License:      MIT License
