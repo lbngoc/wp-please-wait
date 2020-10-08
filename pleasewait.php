@@ -3,6 +3,7 @@
 /*
 Plugin Name:  WP PleaseWait
 Text Domain:  wp-pleasewait
+Domain Path: /languages/
 Version:      2.2.2
 Description:  Just an awesome splash screen for your website (or PWA), support 12+ spinner styles and many customizable things - message text, spinner size, background, text color...
 Plugin URI:   https://ngoclb.com/project/wp-please-wait
@@ -17,8 +18,6 @@ if (!defined('ABSPATH')) {
 
 require_once 'pleasewait-settings.php';
 
-register_uninstall_hook(plugin_basename(__FILE__), array('WpPleaseWait_SettingsPage', 'clear_settings'));
-
 class WpPleaseWait
 {
 
@@ -30,11 +29,12 @@ class WpPleaseWait
         $this->options = WpPleaseWait_SettingsPage::getInstance()->get_options();
         // print_r($this->options); die;
         add_action('wp', array($this, 'load_actions'), 1, 0);
+        add_action('plugins_loaded', 'load_plugin_textdomain');
     }
 
     public function uninstall()
     {
-        // remove anythings if needed
+        WpPleaseWait_SettingsPage::getInstance()->clear_settings();
     }
 
     /**
@@ -46,6 +46,13 @@ class WpPleaseWait
             self::$instance = new self();
         }
         return self::$instance;
+    }
+
+    /**
+     * Load translations
+     */
+    function load_plugin_textdomain() {
+        load_plugin_textdomain('wp-pleasewait', FALSE, basename( dirname( __FILE__ ) ) . '/languages/' );
     }
 
     /**
@@ -261,3 +268,4 @@ JS;
 }
 
 WpPleaseWait::getInstance();
+register_uninstall_hook(plugin_basename(__FILE__), array('WpPleaseWait', 'uninstall'));

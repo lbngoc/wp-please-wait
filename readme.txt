@@ -4,7 +4,7 @@ Donate link: https://ko-fi.com/ngoclb
 Tags: pleasewait, loading, loader, spa, animation, loading screen, loading page, page effects, page loader, splash, splash screen, pwa
 Stable tag: 2.2.2
 Requires PHP: 5.4.33
-Requires at least: 3.3
+Requires at least: 4.0
 Tested up to: 5.5.1
 
 Just an awesome splash screen for your website (or PWA), support 12+ spinner styles and many customizable things - message text, spinner size, background, text color...
