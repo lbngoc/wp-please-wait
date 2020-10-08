@@ -2,10 +2,11 @@
 
 /*
 Plugin Name:  WP PleaseWait
+Text Domain:  wp-pleasewait
+Version:      2.2.2
+Description:  Just an awesome splash screen for your website (or PWA), support 12+ spinner styles and many customizable things - message text, spinner size, background, text color...
 Plugin URI:   https://ngoclb.com/project/wp-please-wait
-Description:  Add PleaseWait loading screen to currrent theme
-Version:      2.2.1
-Author:       Ngoc LB
+Author:       Ngoc L.B.
 Author URI:   https://ngoclb.com/
 License:      MIT License
 */
@@ -14,7 +15,7 @@ if (!defined('ABSPATH')) {
     die();
 }
 
-require 'pleasewait-settings.php';
+require_once 'pleasewait-settings.php';
 
 register_uninstall_hook(plugin_basename(__FILE__), array('WpPleaseWait_SettingsPage', 'clear_settings'));
 

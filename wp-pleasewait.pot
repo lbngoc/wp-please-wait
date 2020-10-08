@@ -1,0 +1,285 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: WP PleaseWait\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-10-08 08:31+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: \n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.4.3; wp-5.5.1"
+
+#: pleasewait-settings.php:758
+msgid "Above the spinner"
+msgstr ""
+
+#: pleasewait-settings.php:740
+#, php-format
+msgid "Allowed HTML tags: %s"
+msgstr ""
+
+#: pleasewait-settings.php:883
+msgid "Archive page"
+msgstr ""
+
+#: pleasewait-settings.php:350
+msgid "Are you sure you want to reset all settings?"
+msgstr ""
+
+#: pleasewait-settings.php:653
+#, php-format
+msgid "Auto add plugin scripts after %s tag"
+msgstr ""
+
+#: pleasewait-settings.php:410
+msgid "Auto Mode"
+msgstr ""
+
+#: pleasewait-settings.php:443
+msgid "Background Color"
+msgstr ""
+
+#: pleasewait-settings.php:759
+msgid "Below the spinner"
+msgstr ""
+
+#: pleasewait-settings.php:783
+msgid "Bounce"
+msgstr ""
+
+#: pleasewait-settings.php:782
+msgid "Chase"
+msgstr ""
+
+#: pleasewait-settings.php:788
+msgid "Circle"
+msgstr ""
+
+#: pleasewait-settings.php:789
+msgid "Circle Fade"
+msgstr ""
+
+#: pleasewait-settings.php:864
+#, php-format
+msgid ""
+"Delay timeout to hide loading screen after page loaded, set %s to disable, "
+"default: %s"
+msgstr ""
+
+#: pleasewait-settings.php:669
+#, php-format
+msgid "Determine where to output loading screen script, default: %s"
+msgstr ""
+
+#: pleasewait-settings.php:498
+msgid "Disappearance Delay Time"
+msgstr ""
+
+#: pleasewait-settings.php:506
+msgid "Display Scopes"
+msgstr ""
+
+#: pleasewait-settings.php:880
+msgid "Enable PleaseWait screen on the whole website"
+msgstr ""
+
+#: pleasewait-settings.php:273
+msgid "FAQs & Support"
+msgstr ""
+
+#: pleasewait-settings.php:786
+msgid "Flow"
+msgstr ""
+
+#: pleasewait-settings.php:791
+msgid "Fold"
+msgstr ""
+
+#: pleasewait-settings.php:911
+#, php-format
+msgid "For advanced usage, you can use filter %s"
+msgstr ""
+
+#: pleasewait-settings.php:744
+#, php-format
+msgid "For customize message, you can use filter %s"
+msgstr ""
+
+#: pleasewait-settings.php:685
+msgid "Force show loading screen for admin user"
+msgstr ""
+
+#: pleasewait-settings.php:881
+msgid "Front page"
+msgstr ""
+
+#: pleasewait-settings.php:790
+msgid "Grid"
+msgstr ""
+
+#: pleasewait-settings.php:882
+msgid "Home page"
+msgstr ""
+
+#: pleasewait-settings.php:418
+msgid "Hook Name"
+msgstr ""
+
+#. Description of the plugin
+msgid ""
+"Just an awesome splash screen for your website (or PWA), support 12+ spinner "
+"styles and many customizable things - message text, spinner size, background,"
+" text color..."
+msgstr ""
+
+#: pleasewait-settings.php:700
+msgid "Load plugin assets from CDN instead of your server"
+msgstr ""
+
+#: pleasewait-settings.php:490
+msgid "Max Display Time"
+msgstr ""
+
+#: pleasewait-settings.php:844
+#, php-format
+msgid ""
+"Maximum timeout to display loading screen, set %s to disable, default: %s"
+msgstr ""
+
+#: pleasewait-settings.php:466
+msgid "Message Position"
+msgstr ""
+
+#: pleasewait-settings.php:458
+msgid "Message Text"
+msgstr ""
+
+#: pleasewait-settings.php:859
+msgid "milliseconds"
+msgstr ""
+
+#. Author of the plugin
+msgid "Ngoc L.B."
+msgstr ""
+
+#: pleasewait-settings.php:780
+msgid "None"
+msgstr ""
+
+#: pleasewait-settings.php:781
+msgid "Plane"
+msgstr ""
+
+#: pleasewait-settings.php:785
+msgid "Pulse"
+msgstr ""
+
+#: pleasewait-settings.php:278
+msgid "Rate this plugin"
+msgstr ""
+
+#: pleasewait-settings.php:285
+msgid "Report an issue"
+msgstr ""
+
+#: pleasewait-settings.php:244 pleasewait-settings.php:257
+msgid "Reset to defaults"
+msgstr ""
+
+#: pleasewait-settings.php:245 pleasewait-settings.php:258
+msgid "Save changes"
+msgstr ""
+
+#: pleasewait-settings.php:884
+msgid "Search results page"
+msgstr ""
+
+#: pleasewait-settings.php:839
+msgid "seconds"
+msgstr ""
+
+#: pleasewait-settings.php:885
+msgid "Single page"
+msgstr ""
+
+#: pleasewait-settings.php:886
+msgid "Single post"
+msgstr ""
+
+#: pleasewait-settings.php:825
+#, php-format
+msgid "Size of the spinner element (in pixel), default: %s"
+msgstr ""
+
+#: pleasewait-settings.php:887
+msgid "Specific post (or page, custom post type) IDs"
+msgstr ""
+
+#: pleasewait-settings.php:482
+msgid "Spinner Size"
+msgstr ""
+
+#: pleasewait-settings.php:474
+msgid "Spinner Style"
+msgstr ""
+
+#: pleasewait-settings.php:807
+#, php-format
+msgid "Style of the spinner element, default: %s"
+msgstr ""
+
+#: pleasewait-settings.php:787
+msgid "Swing"
+msgstr ""
+
+#: pleasewait-settings.php:427
+msgid "Testing Mode"
+msgstr ""
+
+#: pleasewait-settings.php:450
+msgid "Text Color"
+msgstr ""
+
+#: pleasewait-settings.php:435
+msgid "Use CDN"
+msgstr ""
+
+#: pleasewait-settings.php:291
+msgid "Visit author website"
+msgstr ""
+
+#: pleasewait-settings.php:792
+msgid "Wander"
+msgstr ""
+
+#: pleasewait-settings.php:784
+msgid "Wave"
+msgstr ""
+
+#. Name of the plugin
+msgid "WP PleaseWait"
+msgstr ""
+
+#: pleasewait-settings.php:738
+msgid ""
+"You could display random message on each loading screen by enter multiple "
+"message here, one message per line"
+msgstr ""
+
+#: pleasewait-settings.php:910
+#, php-format
+msgid ""
+"You could enable loading screen on some specify posts only by their IDs, "
+"separated by a comma. e.g. %s"
+msgstr ""
+
+#: pleasewait-settings.php:670
+#, php-format
+msgid "You should leave this field as default value if you don't know about %s"
+msgstr ""

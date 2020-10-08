@@ -1,7 +1,7 @@
 <?php
 class WpPleaseWait_SettingsPage
 {
-    const CURRENT_VERSION    = '2.2.1';
+    const CURRENT_VERSION    = '2.2.2';
     const SPINKIT_VERSION    = '2.0.1'; // https: //github.com/tobiasahlin/SpinKit
     const PLEASEWAIT_VERSION = '0.0.5'; // https: //github.com/Pathgather/please-wait
     const GITHUB_URL = 'https://github.com/lbngoc/wp-please-wait'; // null|string
@@ -118,6 +118,9 @@ class WpPleaseWait_SettingsPage
         </div>'
     );
 
+    const MSG_POS_ABOVE = 'above';
+    const MSG_POS_BELOW = 'below';
+
     /**
      * Holds the values to be used in the fields callbacks
      */
@@ -136,11 +139,7 @@ class WpPleaseWait_SettingsPage
                     %s
             </div></div></div>',
         'custom_message'      => '<p style="font-size: xx-large; font-style: italic; font-family: cursive">Welcome</p>',
-        'custom_message_pos'  => 'above',
-        'custom_message_pos_list' => array(
-            'above' => 'Above the spinner',
-            'below' => 'Below the spinner',
-        ),
+        'custom_message_pos'  => self::MSG_POS_ABOVE,
         'spinner_style'       => self::SK_WAVE,
         'spinner_scale'       => 1,  // hidden since 2.1.0
         'sk_size'             => 40, // px
@@ -234,7 +233,7 @@ class WpPleaseWait_SettingsPage
     {
 ?>
         <div class="wrap">
-            <h1>WP PleaseWait Settings <small style="float: right; font-size: 50%"><?php echo self::CURRENT_VERSION; ?></small></h1>
+            <h1>WP PleaseWait <small style="font-size: 75%"><?php echo self::CURRENT_VERSION; ?></small></h1>
             <div id="poststuff">
                 <div id="post-body" class="columns-2">
                     <div id="post-body-content">
@@ -242,8 +241,8 @@ class WpPleaseWait_SettingsPage
                             <form method="post" action="options.php">
                                 <p class="submit">
                                     <?php
-                                    submit_button("Reset to defaults", 'secondary', null, false, ['name' => 'reset']);
-                                    submit_button("Save changes", 'primary pull-right', 'submit', false);
+                                    submit_button(__('Reset to defaults', 'wp-pleasewait'), 'secondary', null, false, ['name' => 'reset']);
+                                    submit_button(__('Save changes', 'wp-pleasewait'), 'primary pull-right', 'submit', false);
                                     ?>
                                 </p>
                                 <hr />
@@ -255,8 +254,8 @@ class WpPleaseWait_SettingsPage
                                 <hr />
                                 <p class="submit">
                                     <?php
-                                    submit_button("Reset to defaults", 'secondary', null, false, ['name' => 'reset']);
-                                    submit_button("Save changes", 'primary pull-right', 'submit', false);
+                                    submit_button(__('Reset to defaults', 'wp-pleasewait'), 'secondary', null, false, ['name' => 'reset']);
+                                    submit_button(__('Save changes', 'wp-pleasewait'), 'primary pull-right', 'submit', false);
                                     ?>
                                 </p>
                             </form>
@@ -270,20 +269,27 @@ class WpPleaseWait_SettingsPage
                                     <ul>
                                         <?php if (self::PLUGIN_URL !== null) : ?>
                                             <li class="dashicons-before dashicons-wordpress" style="color: #82878c">
-                                                <a href="<?php echo self::PLUGIN_URL; ?>" style="text-decoration: none" target="_blank">FAQs & Support</a>
+                                                <a href="<?php echo self::PLUGIN_URL; ?>" style="text-decoration: none" target="_blank">
+                                                    <?php echo __('FAQs & Support', 'wp-pleasewait'); ?>
+                                                </a>
                                             </li>
                                             <li class="dashicons-before dashicons-star-filled" style="color: #82878c">
                                                 <a href="<?php echo self::PLUGIN_URL; ?>/reviews/?rate=5#new-post" style="text-decoration: none" target="_blank">
-                                                    Rate this plugin</a>
+                                                    <?php echo __('Rate this plugin', 'wp-pleasewait'); ?>
+                                                </a>
                                             </li>
                                         <?php endif; ?>
                                         <?php if (self::GITHUB_URL !== null) : ?>
                                             <li class="dashicons-before dashicons-flag" style="color: #82878c">
-                                                <a href="<?php echo self::GITHUB_URL; ?>/issues/new" style="text-decoration: none" target="_blank">Report an issue</a>
+                                                <a href="<?php echo self::GITHUB_URL; ?>/issues/new" style="text-decoration: none" target="_blank">
+                                                    <?php echo __('Report an issue', 'wp-pleasewait'); ?>
+                                                </a>
                                             </li>
                                         <?php endif; ?>
                                         <li class="dashicons-before dashicons-admin-links" style="color: #82878c">
-                                            <a href="<?php echo self::AUTHOR_URL; ?>" style="text-decoration: none" target="_blank">Visit author website</a>
+                                            <a href="<?php echo self::AUTHOR_URL; ?>" style="text-decoration: none" target="_blank">
+                                                <?php echo __('Visit author website', 'wp-pleasewait'); ?>
+                                            </a>
                                         </li>
                                     </ul>
                                     <p style="text-align: center"><a href='https://ko-fi.com/L3L4B8JX' style='display: flex; justify-content: center' target='_blank'><img height='36' style='border:0px;height:36px;' src='<?php echo $this->get_assets_url('assets/kofi2.png'); ?>' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a></p>
@@ -301,7 +307,9 @@ class WpPleaseWait_SettingsPage
                             echo $this->get_admin_color_scheme(2); ?>
             }
 
-            .sk-flow { align-items: center }
+            .sk-flow {
+                align-items: center
+            }
 
             .stuffbox {
                 padding: 0 20px
@@ -339,7 +347,7 @@ class WpPleaseWait_SettingsPage
                 $(document).ready(function() {
                     $.fn.wpColorPicker && $('.wp-color-picker').wpColorPicker();
                     $('.button[name="reset"]').click(function(e) {
-                        if (!window.confirm('Are you sure you want to reset all settings?')) {
+                        if (!window.confirm("<?php echo esc_attr__('Are you sure you want to reset all settings?', 'wp-pleasewait'); ?>")) {
                             e.preventDefault();
                         }
                     });
@@ -399,7 +407,7 @@ class WpPleaseWait_SettingsPage
 
         add_settings_field(
             'auto_mode',
-            'Auto Mode',
+            __('Auto Mode', 'wp-pleasewait'),
             array($this, 'auto_mode_callback'),
             'wppleasewait-setting-admin',
             'setting_section_id'
@@ -407,7 +415,7 @@ class WpPleaseWait_SettingsPage
 
         add_settings_field(
             'hook_name',
-            'Hook Name',
+            __('Hook Name', 'wp-pleasewait'),
             array($this, 'hook_name_callback'),
             'wppleasewait-setting-admin',
             'setting_section_id',
@@ -416,7 +424,7 @@ class WpPleaseWait_SettingsPage
 
         add_settings_field(
             'test_mode',
-            'Testing Mode',
+            __('Testing Mode', 'wp-pleasewait'),
             array($this, 'test_mode_callback'),
             'wppleasewait-setting-admin',
             'setting_section_id'
@@ -424,7 +432,7 @@ class WpPleaseWait_SettingsPage
 
         add_settings_field(
             'use_cdn',
-            'Use CDN',
+            __('Use CDN', 'wp-pleasewait'),
             array($this, 'use_cdn_callback'),
             'wppleasewait-setting-admin',
             'setting_section_id'
@@ -432,14 +440,14 @@ class WpPleaseWait_SettingsPage
 
         add_settings_field(
             'bg_color',
-            'Background Color',
+            __('Background Color', 'wp-pleasewait'),
             array($this, 'bg_color_callback'),
             'wppleasewait-setting-admin',
             'setting_section_id'
         );
         add_settings_field(
             'text_color',
-            'Text Color',
+            __('Text Color', 'wp-pleasewait'),
             array($this, 'text_color_callback'),
             'wppleasewait-setting-admin',
             'setting_section_id'
@@ -447,7 +455,7 @@ class WpPleaseWait_SettingsPage
 
         add_settings_field(
             'custom_message',
-            'Message Text',
+            __('Message Text', 'wp-pleasewait'),
             array($this, 'custom_message_callback'),
             'wppleasewait-setting-admin',
             'setting_section_id'
@@ -455,7 +463,7 @@ class WpPleaseWait_SettingsPage
 
         add_settings_field(
             'custom_message_pos',
-            'Message Position',
+            __('Message Position', 'wp-pleasewait'),
             array($this, 'custom_message_pos_callback'),
             'wppleasewait-setting-admin',
             'setting_section_id'
@@ -463,7 +471,7 @@ class WpPleaseWait_SettingsPage
 
         add_settings_field(
             'spinner_style',
-            'Spinner Style',
+            __('Spinner Style', 'wp-pleasewait'),
             array($this, 'spinner_style_callback'),
             'wppleasewait-setting-admin',
             'setting_section_id'
@@ -471,7 +479,7 @@ class WpPleaseWait_SettingsPage
 
         add_settings_field(
             'sk_size',
-            'Spinner Size',
+            __('Spinner Size', 'wp-pleasewait'),
             array($this, 'spinner_size_callback'),
             'wppleasewait-setting-admin',
             'setting_section_id'
@@ -479,7 +487,7 @@ class WpPleaseWait_SettingsPage
 
         add_settings_field(
             'timeout',
-            'Max Display Time',
+            __('Max Display Time', 'wp-pleasewait'),
             array($this, 'timeout_callback'),
             'wppleasewait-setting-admin',
             'setting_section_id'
@@ -487,7 +495,7 @@ class WpPleaseWait_SettingsPage
 
         add_settings_field(
             'delay',
-            'Disappearance Delay Time',
+            __('Disappearance Delay Time', 'wp-pleasewait'),
             array($this, 'delay_callback'),
             'wppleasewait-setting-admin',
             'setting_section_id'
@@ -495,7 +503,7 @@ class WpPleaseWait_SettingsPage
 
         add_settings_field(
             'display_scopes',
-            'Display Scopes',
+            __('Display Scopes', 'wp-pleasewait'),
             array($this, 'display_scopes_callback'),
             'wppleasewait-setting-admin',
             'setting_section_id'
@@ -597,7 +605,7 @@ class WpPleaseWait_SettingsPage
             $new_input['display_scopes'] = $input['display_scopes'];
             array_walk(
                 $new_input['display_scopes'],
-                function(&$value, $key) {
+                function (&$value, $key) {
                     if ($key === self::SCOPE_INCLUDES_ID_VALUE) {
                         $re = '/(\d+)(,\s*\d+)*/m';
                         $new_value = [];
@@ -611,7 +619,8 @@ class WpPleaseWait_SettingsPage
                     } else {
                         $value = ($value === 'yes');
                     }
-                });
+                }
+            );
             if ($new_input['display_scopes'][self::SCOPE_INCLUDES_ID]) {
                 if (empty($new_input['display_scopes'][self::SCOPE_INCLUDES_ID_VALUE])) {
                     unset($new_input['display_scopes'][self::SCOPE_INCLUDES_ID]);
@@ -635,38 +644,14 @@ class WpPleaseWait_SettingsPage
      */
     public function auto_mode_callback()
     {
-        $current = isset($this->options['auto_mode']) ? $this->options['auto_mode'] : $this->default_options['auto_mode'];
         printf(
             '<input type="checkbox" id="auto_mode" name="wppleasewait_settings[auto_mode]" value="yes" %s />',
-            checked($current, true, false)
+            checked($this->options['auto_mode'], true, false)
         );
-        print '<label for="auto_mode"><p class="description">Auto add plugin scripts after <code>&lt;body&gt;</code> tag.</p></label>';
-    }
-
-    /**
-     * Get the test_mode option and print its input control
-     */
-    public function test_mode_callback()
-    {
-        $current = isset($this->options['test_mode']) ? $this->options['test_mode'] : $this->default_options['test_mode'];
         printf(
-            '<input type="checkbox" id="test_mode" name="wppleasewait_settings[test_mode]" value="yes" %s />',
-            checked($current, true, false)
+            '<label for="auto_mode"><p class="description">%s</p></label>',
+            sprintf(__('Auto add plugin scripts after %s tag', 'wp-pleasewait'), '<code>&lt;body&gt;</code>')
         );
-        print '<label for="test_mode"><p class="description">Force show loading screen for admin user.</p></label>';
-    }
-
-    /**
-     * Get the use_cdn option and print its input control
-     */
-    public function use_cdn_callback()
-    {
-        $current = isset($this->options['use_cdn']) ? $this->options['use_cdn'] : $this->default_options['use_cdn'];
-        printf(
-            '<input type="checkbox" id="use_cdn" name="wppleasewait_settings[use_cdn]" value="yes" %s />',
-            checked($current, true, false)
-        );
-        print '<label for="use_cdn"><p class="description">Load plugin assets from CDN instead of your server.</p></label>';
     }
 
     /**
@@ -677,9 +662,43 @@ class WpPleaseWait_SettingsPage
         $rcm_hook_name = $this->default_options['hook_name'];
         printf(
             '<input type="text" id="hook_name" name="wppleasewait_settings[hook_name]" value="%s" />',
-            isset($this->options['hook_name']) ? esc_attr($this->options['hook_name']) : $rcm_hook_name
+            esc_attr($this->options['hook_name'])
         );
-        print '<p class="description">Determine where to output loading screen script, default: <code>' . $rcm_hook_name . '</code><br/>You should leave this field as default value if you don\'t know about <a href="https://codex.wordpress.org/Plugin_API/Action_Reference" target="_blank">WP Action Hook</a>.</p>';
+        printf(
+            '<p class="description">%s<br/>%s</p>',
+            sprintf(__('Determine where to output loading screen script, default: %s', 'wp-pleasewait'), "<code>{$rcm_hook_name}</code>"),
+            sprintf(__('You should leave this field as default value if you don\'t know about %s', 'wp-pleasewait'), '<a href="https://codex.wordpress.org/Plugin_API/Action_Reference" target="_blank">WP Action Hook</a>')
+        );
+    }
+
+    /**
+     * Get the test_mode option and print its input control
+     */
+    public function test_mode_callback()
+    {
+        printf(
+            '<input type="checkbox" id="test_mode" name="wppleasewait_settings[test_mode]" value="yes" %s />',
+            checked($this->options['test_mode'], true, false)
+        );
+        printf(
+            '<label for="test_mode"><p class="description">%s</p></label>',
+            __('Force show loading screen for admin user', 'wp-pleasewait')
+        );
+    }
+
+    /**
+     * Get the use_cdn option and print its input control
+     */
+    public function use_cdn_callback()
+    {
+        printf(
+            '<input type="checkbox" id="use_cdn" name="wppleasewait_settings[use_cdn]" value="yes" %s />',
+            checked($this->options['use_cdn'], true, false)
+        );
+        printf(
+            '<label for="use_cdn"><p class="description">%s</p></label>',
+            __('Load plugin assets from CDN instead of your server', 'wp-pleasewait')
+        );
     }
 
     /**
@@ -689,7 +708,7 @@ class WpPleaseWait_SettingsPage
     {
         printf(
             '<input type="text" id="bg_color" class="wp-color-picker" name="wppleasewait_settings[bg_color]" value="%s" />',
-            isset($this->options['bg_color']) ? esc_attr($this->options['bg_color']) : $this->default_options['bg_color']
+            esc_attr($this->options['bg_color'])
         );
     }
 
@@ -700,7 +719,7 @@ class WpPleaseWait_SettingsPage
     {
         printf(
             '<input type="text" id="text_color" class="wp-color-picker" name="wppleasewait_settings[text_color]" value="%s" />',
-            isset($this->options['text_color']) ? esc_attr($this->options['text_color']) : $this->default_options['text_color']
+            esc_attr($this->options['text_color'])
         );
     }
 
@@ -711,10 +730,21 @@ class WpPleaseWait_SettingsPage
     {
         printf(
             '<textarea rows="3" id="custom_message" class="full-width" name="wppleasewait_settings[custom_message]" />%s</textarea>',
-            isset($this->options['custom_message']) ? esc_attr($this->options['custom_message']) : $this->default_options['custom_message']
+            esc_attr($this->options['custom_message'])
         );
         $allow_tags = htmlentities($this->default_options['allow_tags']);
-        printf('<p class="description">You could display random message on each loading screen by enter multiple message here, one message per line.<br/>For customize message, you can use filter <code>wp_pleasewait_message</code><br/>Allow HTML tags: <code>%s</code></p>', $allow_tags);
+        printf(
+            '<p class="description">%s<br/>%s<br/>%s</p>',
+            __('You could display random message on each loading screen by enter multiple message here, one message per line', 'wp-pleasewait'),
+            sprintf(
+                __('Allowed HTML tags: %s', 'wp-pleasewait'),
+                "<code>{$allow_tags}</code>"
+            ),
+            sprintf(
+                __('For customize message, you can use filter %s', 'wp-pleasewait'),
+                '<code>wp_pleasewait_message</code>'
+            ),
+        );
     }
 
     /**
@@ -722,9 +752,13 @@ class WpPleaseWait_SettingsPage
      */
     public function custom_message_pos_callback()
     {
-        $value = isset($this->options['custom_message_pos']) ? $this->options['custom_message_pos'] : $this->default_options['custom_message_pos'];
+        $value = $this->options['custom_message_pos'];
         print('<select type="text" id="custom_message_pos" name="wppleasewait_settings[custom_message_pos]">');
-        foreach ($this->default_options['custom_message_pos_list'] as $key => $desc) {
+        $positions = [
+            self::MSG_POS_ABOVE => __('Above the spinner', 'wp-pleasewait'),
+            self::MSG_POS_BELOW => __('Below the spinner', 'wp-pleasewait'),
+        ];
+        foreach ($positions as $key => $desc) {
             printf(
                 '<option value="%s" %s>%s</option>',
                 $key,
@@ -740,22 +774,22 @@ class WpPleaseWait_SettingsPage
      */
     public function spinner_style_callback()
     {
-        $value = isset($this->options['spinner_style']) ? $this->options['spinner_style'] : $this->default_options['spinner_style'];
+        $value = $this->options['spinner_style'];
         print('<select type="text" id="spinner_style" name="wppleasewait_settings[spinner_style]">');
         $spinner_styles = [
-            self::SK_NONE        => 'None',
-            self::SK_PLANE       => 'Plane',
-            self::SK_CHASE       => 'Chase',
-            self::SK_BOUNCE      => 'Bounce',
-            self::SK_WAVE        => 'Wave',
-            self::SK_PULSE       => 'Pulse',
-            self::SK_FLOW        => 'Flow',
-            self::SK_SWING       => 'Swing',
-            self::SK_CIRCLE      => 'Circle',
-            self::SK_CIRCLE_FADE => 'Circle Fade',
-            self::SK_GRID        => 'Grid',
-            self::SK_FOLD        => 'Fold',
-            self::SK_WANDER      => 'Wander'
+            self::SK_NONE        => __('None', 'wp-pleasewait'),
+            self::SK_PLANE       => __('Plane', 'wp-pleasewait'),
+            self::SK_CHASE       => __('Chase', 'wp-pleasewait'),
+            self::SK_BOUNCE      => __('Bounce', 'wp-pleasewait'),
+            self::SK_WAVE        => __('Wave', 'wp-pleasewait'),
+            self::SK_PULSE       => __('Pulse', 'wp-pleasewait'),
+            self::SK_FLOW        => __('Flow', 'wp-pleasewait'),
+            self::SK_SWING       => __('Swing', 'wp-pleasewait'),
+            self::SK_CIRCLE      => __('Circle', 'wp-pleasewait'),
+            self::SK_CIRCLE_FADE => __('Circle Fade', 'wp-pleasewait'),
+            self::SK_GRID        => __('Grid', 'wp-pleasewait'),
+            self::SK_FOLD        => __('Fold', 'wp-pleasewait'),
+            self::SK_WANDER      => __('Wander', 'wp-pleasewait')
         ];
         foreach ($spinner_styles as $sk_id => $sk_name) {
             printf(
@@ -767,7 +801,13 @@ class WpPleaseWait_SettingsPage
         }
         print('</select>');
         printf('<div id="preview-html">%s</div>', self::SPINNER_STYLES[$value]);
-        printf('<p class="description">Loader use SpinKit, see more details <a href="%s" target="_blank">at here</a>.</p>', 'http://tobiasahlin.com/spinkit/');
+        printf(
+            '<p class="description">%s</p>',
+            sprintf(
+                __('Style of the spinner element, default: %s', 'wp-pleasewait'),
+                "<code>{$spinner_styles[$this->default_options['spinner_style']]}</code>"
+            )
+        );
     }
 
     /**
@@ -777,9 +817,15 @@ class WpPleaseWait_SettingsPage
     {
         printf(
             '<input type="number" id="sk_size" min="10" step="1" name="wppleasewait_settings[sk_size]" value="%s" />',
-            isset($this->options['sk_size']) ? esc_attr($this->options['sk_size']) : $this->default_options['sk_size']
+            esc_attr($this->options['sk_size'])
         );
-        printf('<p class="description">Spinner size (px), default: <code>%s</code></p>', $this->default_options['sk_size']);
+        printf(
+            '<p class="description">%s</p>',
+            sprintf(
+                __('Size of the spinner element (in pixel), default: %s', 'wp-pleasewait'),
+                "<code>{$this->default_options['sk_size']}</code>"
+            )
+        );
     }
 
     /**
@@ -788,10 +834,18 @@ class WpPleaseWait_SettingsPage
     public function timeout_callback()
     {
         printf(
-            '<input type="number" id="timeout" min="0" step="1" name="wppleasewait_settings[timeout]" value="%s" /> (seconds)',
-            isset($this->options['timeout']) ? esc_attr($this->options['timeout']) : $this->default_options['timeout']
+            '<input type="number" id="timeout" min="0" step="1" name="wppleasewait_settings[timeout]" value="%s" /> (%s)',
+            esc_attr($this->options['timeout']),
+            __('seconds', 'wp-pleasewait')
         );
-        printf('<p class="description">Maximum timeout to display loading screen, set <code>0</code> to disable, default: <code>%s</code></p>', $this->default_options['timeout']);
+        printf(
+            '<p class="description">%s</p>',
+            sprintf(
+                __('Maximum timeout to display loading screen, set %s to disable, default: %s', 'wp-pleasewait'),
+                '<code>0</code>',
+                "<code>{$this->default_options['timeout']}</code>"
+            )
+        );
     }
 
     /**
@@ -800,10 +854,18 @@ class WpPleaseWait_SettingsPage
     public function delay_callback()
     {
         printf(
-            '<input type="number" id="delay" min="0" step="10" name="wppleasewait_settings[delay]" value="%s" /> (milliseconds)',
-            isset($this->options['delay']) ? esc_attr($this->options['delay']) : $this->default_options['delay']
+            '<input type="number" id="delay" min="0" step="10" name="wppleasewait_settings[delay]" value="%s" /> (%s)',
+            esc_attr($this->options['delay']),
+            __('milliseconds', 'wp-pleasewait')
         );
-        printf('<p class="description">Delay timeout to hide loading screen after finish, set <code>0</code> to disable, default: <code>%s</code></p>', $this->default_options['delay']);
+        printf(
+            '<p class="description">%s</p>',
+            sprintf(
+                __('Delay timeout to hide loading screen after page loaded, set %s to disable, default: %s', 'wp-pleasewait'),
+                '<code>0</code>',
+                "<code>{$this->default_options['delay']}</code>"
+            )
+        );
     }
 
     /**
@@ -811,18 +873,18 @@ class WpPleaseWait_SettingsPage
      */
     public function display_scopes_callback()
     {
-        $current = isset($this->options['display_scopes']) ? $this->options['display_scopes'] : $this->default_options['display_scopes'];
+        $current = $this->options['display_scopes'];
         $is_enable_all = empty($current) || isset($current[self::SCOPE_ALL_PAGE]);
         // print_r($current);die;
         $scopes = [
-            self::SCOPE_ALL_PAGE     => 'Enable PleaseWait screen on the whole website',
-            self::SCOPE_FRONT_PAGE   => 'Front page',
-            self::SCOPE_HOME_PAGE    => 'Home page',
-            self::SCOPE_ARCHIVE_PAGE => 'Archive page',
-            self::SCOPE_SEARCH_PAGE  => 'Search results page',
-            self::SCOPE_SINGLE_PAGE  => 'Single page',
-            self::SCOPE_SINGLE_POST  => 'Single post',
-            self::SCOPE_INCLUDES_ID  => 'Specific post (or page, custom post type) IDs',
+            self::SCOPE_ALL_PAGE     => __('Enable PleaseWait screen on the whole website', 'wp-pleasewait'),
+            self::SCOPE_FRONT_PAGE   => __('Front page', 'wp-pleasewait'),
+            self::SCOPE_HOME_PAGE    => __('Home page', 'wp-pleasewait'),
+            self::SCOPE_ARCHIVE_PAGE => __('Archive page', 'wp-pleasewait'),
+            self::SCOPE_SEARCH_PAGE  => __('Search results page', 'wp-pleasewait'),
+            self::SCOPE_SINGLE_PAGE  => __('Single page', 'wp-pleasewait'),
+            self::SCOPE_SINGLE_POST  => __('Single post', 'wp-pleasewait'),
+            self::SCOPE_INCLUDES_ID  => __('Specific post (or page, custom post type) IDs', 'wp-pleasewait'),
         ];
         foreach ($scopes as $key => $scope) {
             printf('<div id="container-display_scopes_%s" class="%s">', $key, $key !== self::SCOPE_ALL_PAGE && $is_enable_all ? 'td hidden' : 'td');
@@ -843,7 +905,11 @@ class WpPleaseWait_SettingsPage
                     isset($current[$sub_key]) ? $current[$sub_key] : '',
                     readonly(isset($current[$key]), false, false)
                 );
-                print('<p class="description">You could enable loading screen on some specify posts only by their IDs, separated by a comma, ex. <code>1, 2, 3</code>.<br/>For advanced usage, you can use filter <code>wp_pleasewait_enable</code></p>');
+                printf(
+                    '<p class="description">%s<br/>%s</p>',
+                    sprintf(__('You could enable loading screen on some specify posts only by their IDs, separated by a comma. e.g. %s', 'wp-pleasewait'), '<code>1, 2, 3</code>'),
+                    sprintf(__('For advanced usage, you can use filter %s', 'wp-pleasewait'), '<code>wp_pleasewait_enable</code>')
+                );
                 print('</div>');
             }
             print('</div>');

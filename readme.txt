@@ -1,13 +1,13 @@
-=== WP PleaseWait ===
+=== WP PleaseWait - Loading Screen ===
 Contributors: ngoclb
 Donate link: https://ko-fi.com/ngoclb
-Tags: pleasewait, loading, loader, spa, animation, loading screen, loading page, page effects, page loader, spash, splash screen
-Stable tag: 2.2.1
+Tags: pleasewait, loading, loader, spa, animation, loading screen, loading page, page effects, page loader, splash, splash screen, pwa
+Stable tag: 2.2.2
 Requires PHP: 5.4.33
 Requires at least: 3.3
 Tested up to: 5.5.1
 
-Display an awesome splash screen while your website loading assets. You can easily customize the spinner (12 styles), background, text color, timing and everything!
+Just an awesome splash screen for your website (or PWA), support 12+ spinner styles and many customizable things - message text, spinner size, background, text color...
 
 == Description ==
 
@@ -15,13 +15,12 @@ Display an awesome splash screen while your website loading assets. You can easi
 PleaseWait is a small Javascript library that shows a beautiful loading page for your SPA while it loads.
 
 = Features: =
-* Auto place script for best user experience
-* Testing mode for admin user
-* Load assets from CDN
-* Awesome spinner by SpinKit v2 (12 spinner styles)
-* Enable loading screen on whole website or custom rules
+* 12+ awesome spinners (powered by SpinKit v2)
+* Optimized script for best user experience
+* Custom rules for enable/disable loading screen on the website
 * Custom loading message by filter or randomize
-* Custom appearance styles from WP Admin
+* Support Live Preview with Customization (Appearance / Customize)
+* Support loading assets from server or using CDN
 * Support [Genesis framework](https://my.studiopress.com/themes/genesis/)
 * Support [Roots Sage Starter Theme](https://roots.io/sage/)
 * Support [BeTheme](https://themes.muffingroup.com/be/splash/)
@@ -55,9 +54,10 @@ Just have fun.
 
 == Changelog ==
 
-**2.2.1**
+**2.2.2**
 - Enable/Disable loading screen by add "Display Scopes" option
 - Add new filter name "wp_pleasewait_enable" for customize where to show loading screen
+- Support localization
 
 **2.1.0**
 - Update to SkinKit v2.0.1
