@@ -1,7 +1,7 @@
 <?php
 class WpPleaseWait_SettingsPage
 {
-    const CURRENT_VERSION    = '2.2.2';
+    const CURRENT_VERSION    = '2.2.3';
     const SPINKIT_VERSION    = '2.0.1'; // https: //github.com/tobiasahlin/SpinKit
     const PLEASEWAIT_VERSION = '0.0.5'; // https: //github.com/Pathgather/please-wait
     const GITHUB_URL = 'https://github.com/lbngoc/wp-please-wait'; // null|string
@@ -556,7 +556,7 @@ class WpPleaseWait_SettingsPage
 
         if (isset($input['spinner_style'])) {
             $value = sanitize_text_field($input['spinner_style']);
-            if (isset(self::SPINNER_STYLES[$value])) {
+            if (array_key_exists($value, self::SPINNER_STYLES)) {
                 $new_input['spinner_style'] = $value;
             }
         }
@@ -621,7 +621,7 @@ class WpPleaseWait_SettingsPage
                     }
                 }
             );
-            if ($new_input['display_scopes'][self::SCOPE_INCLUDES_ID]) {
+            if (array_key_exists(self::SCOPE_INCLUDES_ID, $new_input['display_scopes'])) {
                 if (empty($new_input['display_scopes'][self::SCOPE_INCLUDES_ID_VALUE])) {
                     unset($new_input['display_scopes'][self::SCOPE_INCLUDES_ID]);
                 }
@@ -743,7 +743,7 @@ class WpPleaseWait_SettingsPage
             sprintf(
                 __('For customize message, you can use filter %s', 'wp-pleasewait'),
                 '<code>wp_pleasewait_message</code>'
-            ),
+            )
         );
     }
 

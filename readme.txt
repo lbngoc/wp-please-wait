@@ -2,10 +2,10 @@
 Contributors: ngoclb
 Donate link: https://ko-fi.com/ngoclb
 Tags: pleasewait, loading, loader, spa, animation, loading screen, loading page, page effects, page loader, splash, splash screen, pwa
-Stable tag: 2.2.2
+Stable tag: 2.2.3
 Requires PHP: 5.4.33
 Requires at least: 4.0
-Tested up to: 5.5.1
+Tested up to: 5.5.3
 
 Just an awesome splash screen for your website (or PWA), support 12+ spinner styles and many customizable things - message text, spinner size, background, text color...
 
@@ -53,6 +53,9 @@ Just have fun.
 3. WP PleaseWait Loading Screen
 
 == Changelog ==
+
+**2.2.3**
+- Fix some issues when running with old PHP version. You could skip this version if v2.2.2 working correctly on your server.
 
 **2.2.2**
 - Enable/Disable loading screen by add "Display Scopes" option
